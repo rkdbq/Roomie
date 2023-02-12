@@ -9,7 +9,8 @@ class Difference extends StatelessWidget {
       height: 120,
       width: 250,
       decoration: BoxDecoration(
-          color: Colors.orange, borderRadius: BorderRadius.circular(12)),
+          color: const Color(0xfffa8128),
+          borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(6),
         child: Column(

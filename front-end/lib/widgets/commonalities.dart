@@ -9,7 +9,8 @@ class Commonalities extends StatelessWidget {
       height: 120,
       width: 250,
       decoration: BoxDecoration(
-          color: Colors.green, borderRadius: BorderRadius.circular(12)),
+          color: const Color(0xff028a0f),
+          borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(6),
         child: Column(

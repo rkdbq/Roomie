@@ -36,14 +36,14 @@ class Profile extends StatelessWidget {
                   major,
                   style: const TextStyle(
                     fontSize: 30,
-                    color: Color(0xffa9afb7),
+                    color: Color(0xff8e8e93),
                   ),
                 ),
                 Text(
                   studentNumber,
                   style: const TextStyle(
                     fontSize: 30,
-                    color: Color(0xffa9afb7),
+                    color: Color(0xff8e8e93),
                   ),
                 ),
               ],
@@ -55,14 +55,14 @@ class Profile extends StatelessWidget {
                   dormitoryInfo,
                   style: const TextStyle(
                     fontSize: 18,
-                    color: Color(0xffa9afb7),
+                    color: Color(0xff8e8e93),
                   ),
                 ),
                 Text(
                   ": $message",
                   style: const TextStyle(
                     fontSize: 24,
-                    color: Color(0xffa9afb7),
+                    color: Color(0xff8e8e93),
                   ),
                 ),
               ],
@@ -84,16 +84,16 @@ class Profile extends StatelessWidget {
                     onPressed: () => print("remove $color"),
                     icon: const Icon(
                       Icons.person_remove,
-                      color: Colors.red,
+                      color: Color(0xffe3242b),
                     ),
                   ),
                   TextButton.icon(
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                        backgroundColor: const Color(0xff2832c2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        elevation: 5),
                     onPressed: () => print("profile about $color"),
                     icon: const Icon(
                       Icons.insert_drive_file_rounded,
@@ -107,10 +107,11 @@ class Profile extends StatelessWidget {
                   ),
                   TextButton.icon(
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: const Color(0xff028a0f),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(8),
                       ),
+                      elevation: 5,
                     ),
                     onPressed: () => print("new chat with $color"),
                     icon: const Icon(
