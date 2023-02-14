@@ -9,10 +9,10 @@ class SuggestedProfile extends StatelessWidget {
   SuggestedProfile({
     super.key,
     required this.color,
-    this.major = "컴퓨터공학부",
-    this.studentNumber = "19",
-    this.dormitoryInfo = "새빛1관",
-    this.message = "안녕하세요",
+    this.major = "전공",
+    this.studentNumber = "00",
+    this.dormitoryInfo = "생활관",
+    this.message = "간단한 메시지",
   });
 
   @override

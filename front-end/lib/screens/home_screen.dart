@@ -29,6 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     profiles.add(SuggestedProfile(
       color: const Color(0xffffffff),
+      major: "컴퓨터공학부",
+      studentNumber: "19",
+      dormitoryInfo: "새빛1관",
+      message: "안녕하세요",
     ));
 
     profiles.add(SuggestedProfile(
