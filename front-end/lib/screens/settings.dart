@@ -7,7 +7,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Color(0xffeff1f3),
-      body: Text("This is Settings"),
+      body: Center(child: Text("This is Settings")),
     );
   }
 }

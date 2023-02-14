@@ -7,7 +7,7 @@ class MyProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Color(0xffeff1f3),
-      body: Text("This is My Profile"),
+      body: Center(child: Text("This is My Profile")),
     );
   }
 }
