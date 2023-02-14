@@ -3,10 +3,10 @@ import 'package:roomie/screens/home_screen.dart';
 import 'package:roomie/widgets/commonalities.dart';
 import 'package:roomie/widgets/difference.dart';
 
-class Profile extends StatelessWidget {
+class SuggestedProfile extends StatelessWidget {
   String major, studentNumber, dormitoryInfo, message;
   Color color = randomColor();
-  Profile({
+  SuggestedProfile({
     super.key,
     required this.color,
     this.major = "컴퓨터공학부",
