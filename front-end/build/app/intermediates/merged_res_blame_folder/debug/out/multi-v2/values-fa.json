@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.example.roomie.app-mergeDebugResources-5:/values-fa/values-fa.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\rkdbg\\.gradle\\caches\\transforms-3\\270e9501dde0430a83746f97bf9ab544\\transformed\\core-1.8.0\\res\\values-fa\\values-fa.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "705",
+                        "endColumns": "100",
+                        "endOffsets": "801"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\rkdbg\\.gradle\\caches\\transforms-3\\eed6c775712772b7adb51f80912e1f44\\transformed\\jetified-exoplayer-core-2.18.1\\res\\values-fa\\values-fa.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,122,183,250,310,388,463,552,640",
+                        "endColumns": "66,60,66,59,77,74,88,87,64",
+                        "endOffsets": "117,178,245,305,383,458,547,635,700"
+                    }
+                }
+            ]
+        }
+    ]
+}
