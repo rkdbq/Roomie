@@ -9,10 +9,8 @@ class SurveyScreen extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
-  double _val_1 = 10.0;
-  double _val_2 = 20.0;
-  bool visibility_1 = true;
-  bool visibility_2 = false;
+  List<double> values = [2, 0];
+  List<bool> visibility = [true, false];
 
   @override
   void initState() {
@@ -26,28 +24,33 @@ class _SurveyScreenState extends State<SurveyScreen> {
       backgroundColor: const Color(0xffeff1f3),
       body: Center(
           child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AnimatedOpacity(
-            opacity: visibility_1 ? 1.0 : 0.0,
+            opacity: visibility[0] ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 500),
             child: Visibility(
-              visible: visibility_1,
+              visible: visibility[0],
               child: SfSlider(
-                value: _val_1,
+                activeColor: Colors.red,
+                inactiveColor: Colors.red.withOpacity(0.2),
+                value: values[0],
                 min: 0,
                 max: 5,
                 interval: 1,
                 showTicks: true,
-                onChangeEnd: (value) => setState(() {
-                  visibility_2 = true;
-                  visibility_1 = false;
-                }),
+                onChangeEnd: (value) => setState(
+                  () {
+                    visibility[0] = false;
+                    visibility[1] = true;
+                  },
+                ),
                 onChanged: (dynamic value) {
                   var val = value as double;
                   setState(
                     () {
-                      _val_1 = val.round() as double;
-                      print(_val_1);
+                      values[0] = val.round() as double;
+                      print(values[0]);
                     },
                   );
                 },
@@ -55,24 +58,29 @@ class _SurveyScreenState extends State<SurveyScreen> {
             ),
           ),
           AnimatedOpacity(
-            opacity: visibility_2 ? 1.0 : 0.0,
+            opacity: visibility[1] ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 500),
             child: Visibility(
-              visible: visibility_2,
+              visible: visibility[1],
               child: SfSlider(
-                activeColor: Colors.red,
-                inactiveColor: Colors.red.withOpacity(0.2),
-                value: _val_2,
+                activeColor: Colors.blue,
+                inactiveColor: Colors.blue.withOpacity(0.2),
+                value: values[1],
                 min: 0,
                 max: 5,
                 interval: 1,
                 showTicks: true,
+                onChangeEnd: (value) => setState(
+                  () {
+                    //visibility[0] = false;
+                  },
+                ),
                 onChanged: (dynamic value) {
                   var val = value as double;
                   setState(
                     () {
-                      _val_2 = val.round() as double;
-                      print(_val_2);
+                      values[1] = val.round() as double;
+                      print(values[1]);
                     },
                   );
                 },
