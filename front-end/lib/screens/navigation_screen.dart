@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:roomie/screens/home_screen.dart';
 import 'package:roomie/screens/my_chatting_screen.dart';
 import 'package:roomie/screens/my_profile_screen.dart';
 import 'package:roomie/screens/settings.dart';
+import 'package:roomie/screens/suggestion_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   const NavigationScreen({super.key});
@@ -12,19 +12,14 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
-  int _selectedIndex = 0;
-  static final List<Widget> _widgetOptions = <Widget>[
-    const HomeScreen(),
-    const MyProfileScreen(),
-    const MyChattingScreen(),
-    const SettingsScreen(),
-  ];
+  int index = 0;
 
-  void _onItemTapped(int index) {
-    setState(
-      () {
-        _selectedIndex = index;
-      },
+  ScrollController scrollController = ScrollController();
+  void animateListView(int index) {
+    scrollController.animateTo(
+      index * MediaQuery.of(context).size.width,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.ease,
     );
   }
 
@@ -33,7 +28,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffeff1f3),
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: ListView(
+          controller: scrollController,
+          physics: const NeverScrollableScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          children: const <Widget>[
+            SuggestionScreen(),
+            MyProfileScreen(),
+            MyChattingScreen(),
+            SettingsScreen(),
+          ],
+        ),
       ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
@@ -67,14 +72,22 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 label: '설정',
               ),
             ],
-            currentIndex: _selectedIndex,
+            currentIndex: index,
             selectedItemColor: const Color(0xff000000),
             unselectedItemColor: const Color(0xffa9afb7),
             iconSize: 30,
             selectedFontSize: 12,
             unselectedFontSize: 12,
             type: BottomNavigationBarType.fixed,
-            onTap: _onItemTapped,
+            onTap: (value) {
+              setState(
+                () {
+                  animateListView(value);
+                  index = value;
+                  print(value);
+                },
+              );
+            },
           ),
         ),
       ),

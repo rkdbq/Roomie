@@ -5,9 +5,16 @@ class MyChattingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Color(0xffeff1f3),
-      body: Center(child: Text("This is My Chatting")),
+    return SizedBox(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: const Text("This is My Chatting"),
+          ),
+        ],
+      ),
     );
   }
 }

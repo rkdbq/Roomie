@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roomie/screens/navigation_screen.dart';
 import 'package:roomie/screens/survey_screen.dart';
 
 void main() {

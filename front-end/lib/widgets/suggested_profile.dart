@@ -111,7 +111,7 @@ class SuggestedProfile extends StatelessWidget {
         ),
         elevation: 5,
       ),
-      onPressed: () => print("new chat with $color"),
+      onPressed: () => print("new chat with $backgroundColor"),
       icon: Icon(
         iconData,
         color: Colors.white,

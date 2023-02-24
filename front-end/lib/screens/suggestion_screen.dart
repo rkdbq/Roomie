@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:roomie/widgets/suggested_profile.dart';
 import 'package:swiping_card_deck/swiping_card_deck.dart';
@@ -5,14 +6,14 @@ import 'package:swiping_card_deck/swiping_card_deck.dart';
 import '../classes/random_color.dart';
 
 //사용자에게 추천된 룸메이트 후보(suggested_profile)들을 보여줌
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class SuggestionScreen extends StatefulWidget {
+  const SuggestionScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SuggestionScreen> createState() => _SuggestionScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SuggestionScreenState extends State<SuggestionScreen> {
   int swipeCount = 0;
   List<SuggestedProfile> profiles = [];
 
@@ -35,17 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffeff1f3),
-      //SwipingDeck 패키지 사용
-      body: SwipingDeck(
-        onLeftSwipe: (p0) => {swipeDeck()},
-        onRightSwipe: (p0) => {swipeDeck()},
-        onDeckEmpty: () => {replaceDeck()},
-        cardWidth: 300,
-        cardDeck: profiles,
-        swipeThreshold: 400.0,
-      ),
+    return SwipingDeck(
+      onLeftSwipe: (p0) => {swipeDeck()},
+      onRightSwipe: (p0) => {swipeDeck()},
+      onDeckEmpty: () => {replaceDeck()},
+      cardWidth: 300,
+      cardDeck: profiles,
+      swipeThreshold: 400.0,
     );
   }
 
