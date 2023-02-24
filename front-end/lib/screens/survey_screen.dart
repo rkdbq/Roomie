@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:roomie/classes/survey_data.dart';
 import 'package:roomie/screens/navigation_screen.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
-
 import '../classes/random_color.dart';
 
 class SurveyScreen extends StatefulWidget {
@@ -23,7 +22,10 @@ class _SurveyScreenState extends State<SurveyScreen> {
     surveyData = SurveyData();
     visibilities = List.filled(surveyData.answers.length, false);
     visibilities[0] = true;
-    colors = List.filled(surveyData.answers.length, randomColor());
+    colors = [];
+    for (var i = 0; i < surveyData.answers.length; i++) {
+      colors.add(randomColor());
+    }
 
     super.initState();
   }

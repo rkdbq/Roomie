@@ -138,8 +138,8 @@ class RelationshipWithRoomie implements Answer {
 class Smoking implements Answer {
   @override
   List<String> items = [
-    "흡연자에요.",
     "비흡연자에요.",
+    "흡연자에요.",
   ];
 
   @override
@@ -156,8 +156,8 @@ class Smoking implements Answer {
 class Earphone implements Answer {
   @override
   List<String> items = [
-    "착용하는 편이에요.",
     "착용하지 않는 편이에요.",
+    "착용하는 편이에요.",
   ];
 
   @override
@@ -174,8 +174,8 @@ class Earphone implements Answer {
 class IndoorDining implements Answer {
   @override
   List<String> items = [
-    "먹고 싶어요.",
     "먹고 싶지 않아요.",
+    "먹고 싶어요.",
   ];
 
   @override
@@ -192,8 +192,8 @@ class IndoorDining implements Answer {
 class IndoorCalling implements Answer {
   @override
   List<String> items = [
-    "통화하고 싶어요.",
     "통화하고 싶지 않아요.",
+    "통화하고 싶어요.",
   ];
 
   @override

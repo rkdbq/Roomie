@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:roomie/widgets/commonalities.dart';
 import 'package:roomie/widgets/difference.dart';
-
+import 'package:roomie/widgets/profile_button.dart';
 import '../classes/random_color.dart';
 
 class SuggestedProfile extends StatelessWidget {
@@ -82,44 +82,27 @@ class SuggestedProfile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    onPressed: () => print("remove $color"),
+                    onPressed: () => print("삭제"),
                     icon: const Icon(
                       Icons.person_remove,
                       color: Color(0xffe3242b),
                     ),
                   ),
-                  profileButton(const Color(0xff2832c2),
-                      Icons.description_rounded, "프로필"),
-                  profileButton(const Color(0xff028a0f),
-                      Icons.chat_bubble_rounded, "새 채팅"),
+                  const ProfileButton(
+                    backgroundColor: Color(0xff2832c2),
+                    iconData: Icons.description_rounded,
+                    labelText: "프로필",
+                  ),
+                  const ProfileButton(
+                    backgroundColor: Color(0xff028a0f),
+                    iconData: Icons.chat_bubble_rounded,
+                    labelText: "새 채팅",
+                  ),
                 ],
               ),
             )
           ],
         ),
-      ),
-    );
-  }
-
-  TextButton profileButton(
-      Color backgroundColor, IconData iconData, String labelText) {
-    return TextButton.icon(
-      style: TextButton.styleFrom(
-        backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        elevation: 5,
-      ),
-      onPressed: () => print("new chat with $backgroundColor"),
-      icon: Icon(
-        iconData,
-        color: Colors.white,
-      ),
-      label: Text(
-        labelText,
-        style:
-            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
