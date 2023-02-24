@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:roomie/classes/survey_data.dart';
+import 'package:roomie/screens/navigation_screen.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../classes/random_color.dart';
@@ -15,6 +16,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
   late SurveyData surveyData;
   late List<bool> visibilities;
   late List<Color> colors;
+  bool isSurveyDone = false;
 
   @override
   void initState() {
@@ -22,7 +24,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
     visibilities = List.filled(surveyData.answers.length, false);
     visibilities[0] = true;
     colors = List.filled(surveyData.answers.length, randomColor());
-    print(visibilities);
 
     super.initState();
   }
@@ -40,18 +41,91 @@ class _SurveyScreenState extends State<SurveyScreen> {
           questionSlider("관계", RelationshipWithRoomie(), 3),
           questionSlider("잠버릇", SleepingHabit(), 4),
           questionSlider("외향성", Extroversion(), 5),
-          questionButtons("흡연", ["🚬", "❌"], 6),
-          questionButtons("이어폰", ["🎧", "❌"], 7),
-          questionButtons("실내취식", ["🍜", "❌"], 8),
-          questionButtons("실내통화", ["📞", "❌"], 9),
+          questionButtons("흡연", Smoking(), 6),
+          questionButtons("이어폰", Earphone(), 7),
+          questionButtons("실내취식", IndoorDining(), 8),
+          questionButtons("실내통화", IndoorCalling(), 9),
+          questionTextField("기타", Etc(), 10),
         ],
+      ),
+    );
+  }
+
+  AnimatedOpacity questionTextField(String key, Comment answer, int index) {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 1000),
+      opacity: visibilities[index] ? 1 : 0,
+      child: Visibility(
+        visible: visibilities[index],
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 64,
+            ),
+            Text(
+              "$key ${answer.icon()}",
+              style: const TextStyle(
+                fontSize: 24,
+              ),
+            ),
+            const SizedBox(
+              height: 96,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  helperText: answer.helperText(),
+                  hintText: answer.hintText(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                onSubmitted: (value) {
+                  surveyData.answers[key] = value;
+                  print(surveyData.answers);
+                  setState(
+                    () {
+                      isSurveyDone = true;
+                    },
+                  );
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            surveyDoneButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  AnimatedOpacity surveyDoneButton() {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 500),
+      opacity: isSurveyDone ? 1 : 0,
+      child: TextButton(
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NavigationScreen(),
+            ),
+          );
+        },
+        child: const Text(
+          "룸메이트 찾기",
+          style: TextStyle(fontSize: 20),
+        ),
       ),
     );
   }
 
   AnimatedOpacity questionSlider(String key, Answer answer, int index) {
     return AnimatedOpacity(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1000),
       opacity: visibilities[index] ? 1 : 0,
       child: Visibility(
         visible: visibilities[index],
@@ -60,7 +134,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                key,
+                "$key ${answer.icon()}",
                 style: const TextStyle(
                   fontSize: 24,
                 ),
@@ -105,16 +179,16 @@ class _SurveyScreenState extends State<SurveyScreen> {
     );
   }
 
-  AnimatedOpacity questionButtons(String key, List<String> answer, int index) {
+  AnimatedOpacity questionButtons(String key, Answer answer, int index) {
     return AnimatedOpacity(
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 1000),
       opacity: visibilities[index] ? 1 : 0,
       child: Visibility(
         visible: visibilities[index],
         child: Column(
           children: [
             Text(
-              key,
+              "$key ${answer.icon()}",
               style: const TextStyle(
                 fontSize: 24,
               ),
@@ -122,17 +196,20 @@ class _SurveyScreenState extends State<SurveyScreen> {
             const SizedBox(
               height: 128,
             ),
-            const SizedBox(
-              height: 24,
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                questionButtonItem(key, randomColor(), answer.first, 1, index),
+                questionButtonItem(
+                    key,
+                    answer.items.indexOf(answer.items.first),
+                    answer.items.first,
+                    randomColor(),
+                    index),
                 const SizedBox(
                   width: 48,
                 ),
-                questionButtonItem(key, randomColor(), answer.last, 0, index),
+                questionButtonItem(key, answer.items.indexOf(answer.items.last),
+                    answer.items.last, randomColor(), index),
               ],
             ),
           ],
@@ -141,11 +218,11 @@ class _SurveyScreenState extends State<SurveyScreen> {
     );
   }
 
-  TextButton questionButtonItem(String key, Color backgroundColor,
-      String answer, int itemType, int index) {
+  TextButton questionButtonItem(String key, int itemType, String answer,
+      Color backgroundColor, int index) {
     return TextButton(
       style: TextButton.styleFrom(
-        fixedSize: const Size(96, 96),
+        fixedSize: const Size(128, 96),
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
@@ -165,8 +242,10 @@ class _SurveyScreenState extends State<SurveyScreen> {
       child: Text(
         answer,
         style: const TextStyle(
-          fontSize: 24,
+          fontSize: 16,
+          color: Colors.white,
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }

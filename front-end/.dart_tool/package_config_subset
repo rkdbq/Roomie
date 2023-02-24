@@ -102,6 +102,10 @@ go_router
 2.17
 file:///Users/rkdbg/.pub-cache/hosted/pub.dev/go_router-6.0.7/
 file:///Users/rkdbg/.pub-cache/hosted/pub.dev/go_router-6.0.7/lib/
+helpers
+2.12
+file:///Users/rkdbg/.pub-cache/hosted/pub.dev/helpers-1.2.0/
+file:///Users/rkdbg/.pub-cache/hosted/pub.dev/helpers-1.2.0/lib/
 html
 2.12
 file:///Users/rkdbg/.pub-cache/hosted/pub.dev/html-0.15.1/
@@ -198,6 +202,10 @@ quiver
 2.17
 file:///Users/rkdbg/.pub-cache/hosted/pub.dev/quiver-3.2.1/
 file:///Users/rkdbg/.pub-cache/hosted/pub.dev/quiver-3.2.1/lib/
+scroll_navigation
+2.12
+file:///Users/rkdbg/.pub-cache/hosted/pub.dev/scroll_navigation-1.3.2/
+file:///Users/rkdbg/.pub-cache/hosted/pub.dev/scroll_navigation-1.3.2/lib/
 source_span
 2.14
 file:///Users/rkdbg/.pub-cache/hosted/pub.dev/source_span-1.9.1/

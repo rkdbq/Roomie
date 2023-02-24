@@ -44,6 +44,7 @@ dependencies:
   survey_kit: ^0.1.2
   syncfusion_flutter_sliders: ^20.4.50
   custom_radio_grouped_button: ^2.1.2+2
+  scroll_navigation: ^1.3.2
 
 dev_dependencies:
   flutter_test:

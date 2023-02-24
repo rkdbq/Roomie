@@ -1,6 +1,13 @@
 abstract class Answer {
   late List<String> items;
+  String icon();
   String answer(int index);
+}
+
+abstract class Comment {
+  String icon();
+  String helperText();
+  String hintText();
 }
 
 class SleepAt implements Answer {
@@ -12,6 +19,11 @@ class SleepAt implements Answer {
     "오전 2시 ~ 오전 4시",
     "오전 4시 이후",
   ];
+
+  @override
+  String icon() {
+    return "🌜";
+  }
 
   @override
   String answer(int index) {
@@ -28,6 +40,10 @@ class AwakeAt implements Answer {
     "오후 12시 ~ 오후 2시",
     "오후 2시 이후",
   ];
+  @override
+  String icon() {
+    return "🌞";
+  }
 
   @override
   String answer(int index) {
@@ -49,6 +65,11 @@ class CleaningPeriod implements Answer {
   String answer(int index) {
     return "${items[index]} 청소하는 편이에요.";
   }
+
+  @override
+  String icon() {
+    return "🧹";
+  }
 }
 
 class SleepingHabit implements Answer {
@@ -64,6 +85,11 @@ class SleepingHabit implements Answer {
   @override
   String answer(int index) {
     return "잠버릇이 ${items[index]} 편이에요.";
+  }
+
+  @override
+  String icon() {
+    return "😪";
   }
 }
 
@@ -81,6 +107,11 @@ class Extroversion implements Answer {
   String answer(int index) {
     return "${items[index]} 성격이에요.";
   }
+
+  @override
+  String icon() {
+    return "🥳";
+  }
 }
 
 class RelationshipWithRoomie implements Answer {
@@ -97,6 +128,100 @@ class RelationshipWithRoomie implements Answer {
   String answer(int index) {
     return "룸메이트와 ${items[index]}(으)로 지내고 싶어요.";
   }
+
+  @override
+  String icon() {
+    return "👬";
+  }
+}
+
+class Smoking implements Answer {
+  @override
+  List<String> items = [
+    "흡연자에요.",
+    "비흡연자에요.",
+  ];
+
+  @override
+  String answer(int index) {
+    return "$index";
+  }
+
+  @override
+  String icon() {
+    return "🚬";
+  }
+}
+
+class Earphone implements Answer {
+  @override
+  List<String> items = [
+    "착용하는 편이에요.",
+    "착용하지 않는 편이에요.",
+  ];
+
+  @override
+  String answer(int index) {
+    return "$index";
+  }
+
+  @override
+  String icon() {
+    return "🎧";
+  }
+}
+
+class IndoorDining implements Answer {
+  @override
+  List<String> items = [
+    "먹고 싶어요.",
+    "먹고 싶지 않아요.",
+  ];
+
+  @override
+  String answer(int index) {
+    return "$index";
+  }
+
+  @override
+  String icon() {
+    return "🍜";
+  }
+}
+
+class IndoorCalling implements Answer {
+  @override
+  List<String> items = [
+    "통화하고 싶어요.",
+    "통화하고 싶지 않아요.",
+  ];
+
+  @override
+  String answer(int index) {
+    return "$index";
+  }
+
+  @override
+  String icon() {
+    return "📞";
+  }
+}
+
+class Etc implements Comment {
+  @override
+  String helperText() {
+    return "룸메이트 후보들에게 추가로 전하고 싶은 말을 작성해주세요.";
+  }
+
+  @override
+  String hintText() {
+    return "저는 축구를 좋아해요! ⚽️";
+  }
+
+  @override
+  String icon() {
+    return "💭";
+  }
 }
 
 class SurveyData {
@@ -111,6 +236,6 @@ class SurveyData {
     "이어폰": 0,
     "실내취식": 0,
     "실내통화": 0,
-    "기타": "상대방에게 전하고 싶은 말을 작성해주세요."
+    "기타": ""
   };
 }
