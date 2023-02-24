@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:roomie/classes/survey_data.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+
+import '../classes/random_color.dart';
 
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({super.key});
@@ -9,12 +12,18 @@ class SurveyScreen extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
-  List<double> values = [2, 0];
-  List<bool> visibility = [true, false];
+  late SurveyData surveyData;
+  late List<bool> visibilities;
+  late List<Color> colors;
 
   @override
   void initState() {
-    // TODO: implement initState
+    surveyData = SurveyData();
+    visibilities = List.filled(surveyData.answers.length, false);
+    visibilities[0] = true;
+    colors = List.filled(surveyData.answers.length, randomColor());
+    print(visibilities);
+
     super.initState();
   }
 
@@ -22,73 +31,143 @@ class _SurveyScreenState extends State<SurveyScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffeff1f3),
-      body: Center(
-          child: Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AnimatedOpacity(
-            opacity: visibility[0] ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 500),
-            child: Visibility(
-              visible: visibility[0],
-              child: SfSlider(
-                activeColor: Colors.red,
-                inactiveColor: Colors.red.withOpacity(0.2),
-                value: values[0],
-                min: 0,
-                max: 5,
-                interval: 1,
-                showTicks: true,
-                onChangeEnd: (value) => setState(
-                  () {
-                    visibility[0] = false;
-                    visibility[1] = true;
-                  },
-                ),
-                onChanged: (dynamic value) {
-                  var val = value as double;
-                  setState(
-                    () {
-                      values[0] = val.round() as double;
-                      print(values[0]);
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
-          AnimatedOpacity(
-            opacity: visibility[1] ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 500),
-            child: Visibility(
-              visible: visibility[1],
-              child: SfSlider(
-                activeColor: Colors.blue,
-                inactiveColor: Colors.blue.withOpacity(0.2),
-                value: values[1],
-                min: 0,
-                max: 5,
-                interval: 1,
-                showTicks: true,
-                onChangeEnd: (value) => setState(
-                  () {
-                    //visibility[0] = false;
-                  },
-                ),
-                onChanged: (dynamic value) {
-                  var val = value as double;
-                  setState(
-                    () {
-                      values[1] = val.round() as double;
-                      print(values[1]);
-                    },
-                  );
-                },
-              ),
-            ),
-          ),
+          questionSlider("취침시간", SleepAt(), 0),
+          questionSlider("기상시간", AwakeAt(), 1),
+          questionSlider("청소주기", CleaningPeriod(), 2),
+          questionSlider("관계", RelationshipWithRoomie(), 3),
+          questionSlider("잠버릇", SleepingHabit(), 4),
+          questionSlider("외향성", Extroversion(), 5),
+          questionButtons("흡연", ["🚬", "❌"], 6),
+          questionButtons("이어폰", ["🎧", "❌"], 7),
+          questionButtons("실내취식", ["🍜", "❌"], 8),
+          questionButtons("실내통화", ["📞", "❌"], 9),
         ],
-      )),
+      ),
+    );
+  }
+
+  AnimatedOpacity questionSlider(String key, Answer answer, int index) {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 500),
+      opacity: visibilities[index] ? 1 : 0,
+      child: Visibility(
+        visible: visibilities[index],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                key,
+                style: const TextStyle(
+                  fontSize: 24,
+                ),
+              ),
+              const SizedBox(
+                height: 128,
+              ),
+              Text(answer.answer(surveyData.answers[key])),
+              const SizedBox(
+                height: 24,
+              ),
+              SfSlider(
+                activeColor: colors[index],
+                inactiveColor: colors[index].withOpacity(0.2),
+                value: surveyData.answers[key],
+                min: 0,
+                max: 4,
+                interval: 1,
+                showTicks: true,
+                onChangeEnd: (value) => setState(
+                  () {
+                    visibilities[index] = false;
+                    if (visibilities.length > index + 1) {
+                      visibilities[index + 1] = true;
+                    }
+                    print(surveyData.answers);
+                  },
+                ),
+                onChanged: (dynamic value) {
+                  var val = (value as double).round();
+                  setState(
+                    () {
+                      surveyData.answers[key] = val;
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  AnimatedOpacity questionButtons(String key, List<String> answer, int index) {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 500),
+      opacity: visibilities[index] ? 1 : 0,
+      child: Visibility(
+        visible: visibilities[index],
+        child: Column(
+          children: [
+            Text(
+              key,
+              style: const TextStyle(
+                fontSize: 24,
+              ),
+            ),
+            const SizedBox(
+              height: 128,
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                questionButtonItem(key, randomColor(), answer.first, 1, index),
+                const SizedBox(
+                  width: 48,
+                ),
+                questionButtonItem(key, randomColor(), answer.last, 0, index),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TextButton questionButtonItem(String key, Color backgroundColor,
+      String answer, int itemType, int index) {
+    return TextButton(
+      style: TextButton.styleFrom(
+        fixedSize: const Size(96, 96),
+        backgroundColor: backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 5,
+      ),
+      onPressed: () {
+        setState(() {
+          visibilities[index] = false;
+          if (visibilities.length > index + 1) {
+            visibilities[index + 1] = true;
+          }
+          surveyData.answers[key] = itemType;
+          print(surveyData.answers);
+        });
+      },
+      child: Text(
+        answer,
+        style: const TextStyle(
+          fontSize: 24,
+        ),
+      ),
     );
   }
 }

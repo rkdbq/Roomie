@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:roomie/screens/home_screen.dart';
 import 'package:roomie/widgets/commonalities.dart';
 import 'package:roomie/widgets/difference.dart';
+
+import '../classes/random_color.dart';
 
 class SuggestedProfile extends StatelessWidget {
   String major, studentNumber, dormitoryInfo, message;
@@ -87,48 +88,38 @@ class SuggestedProfile extends StatelessWidget {
                       color: Color(0xffe3242b),
                     ),
                   ),
-                  TextButton.icon(
-                    style: TextButton.styleFrom(
-                        backgroundColor: const Color(0xff2832c2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        elevation: 5),
-                    onPressed: () => print("profile about $color"),
-                    icon: const Icon(
-                      Icons.insert_drive_file_rounded,
-                      color: Colors.white,
-                    ),
-                    label: const Text(
-                      "프로필",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  TextButton.icon(
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color(0xff028a0f),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      elevation: 5,
-                    ),
-                    onPressed: () => print("new chat with $color"),
-                    icon: const Icon(
-                      Icons.chat_bubble_outlined,
-                      color: Colors.white,
-                    ),
-                    label: const Text(
-                      "새 채팅",
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  profileButton(const Color(0xff2832c2),
+                      Icons.description_rounded, "프로필"),
+                  profileButton(const Color(0xff028a0f),
+                      Icons.chat_bubble_rounded, "새 채팅"),
                 ],
               ),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  TextButton profileButton(
+      Color backgroundColor, IconData iconData, String labelText) {
+    return TextButton.icon(
+      style: TextButton.styleFrom(
+        backgroundColor: backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 5,
+      ),
+      onPressed: () => print("new chat with $color"),
+      icon: Icon(
+        iconData,
+        color: Colors.white,
+      ),
+      label: Text(
+        labelText,
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
