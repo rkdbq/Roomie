@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:roomie/screens/settings.dart';
-import 'package:roomie/screens/suggestion_screen.dart';
+import 'package:roomie/screens/navigated_screens/my_chatting_screen.dart';
+import 'package:roomie/screens/navigated_screens/settings.dart';
+import 'package:roomie/screens/navigated_screens/suggestion_screen.dart';
 
 import '../classes/survey_data.dart';
-import 'my_chatting_screen.dart';
-import 'my_profile_screen.dart';
+import 'navigated_screens/my_profile_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   late SurveyData surveyData;

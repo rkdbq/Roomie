@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+import '../../classes/survey_data.dart';
+
+class MyProfileScreen extends StatelessWidget {
+  late SurveyData surveyData;
+  MyProfileScreen({
+    super.key,
+    required this.surveyData,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +17,9 @@ class SettingsScreen extends StatelessWidget {
         children: <Widget>[
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: const Text("This is Setting"),
+            child: Column(
+              children: const [],
+            ),
           ),
         ],
       ),
