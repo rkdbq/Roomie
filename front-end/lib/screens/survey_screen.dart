@@ -17,7 +17,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
   late SurveyData surveyData;
   late List<bool> visibilities;
   late List<Color> colors;
-  bool isSurveyDone = false;
 
   @override
   void initState() {
@@ -49,7 +48,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           questionButtons("이어폰", Earphone(), 7),
           questionButtons("실내취식", IndoorDining(), 8),
           questionButtons("실내통화", IndoorCalling(), 9),
-          questionTextField("기타", Etc(), 10),
+          questionTextField("기타", Etc(surveyData), 10),
         ],
       ),
     );
@@ -65,6 +64,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           surveyData: surveyData,
           surveyKey: key,
           answer: answer,
+          colors: colors,
         ),
       ),
     );
@@ -91,7 +91,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
               },
             );
           },
-          color: colors[index],
+          backgroundColor: colors[index],
         ),
       ),
     );

@@ -8,9 +8,11 @@ import 'navigated_screens/my_profile_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   late SurveyData surveyData;
+  late List<Color> colors;
   NavigationScreen({
     super.key,
     required this.surveyData,
+    required this.colors,
   });
 
   @override
@@ -42,6 +44,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             const SuggestionScreen(),
             MyProfileScreen(
               surveyData: widget.surveyData,
+              colors: widget.colors,
             ),
             const MyChattingScreen(),
             const SettingsScreen(),
@@ -49,6 +52,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
       ),
       bottomNavigationBar: Container(
+        height: 96,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(20),

@@ -7,15 +7,22 @@ class QuestionSlider extends StatefulWidget {
   late SurveyData surveyData;
   late String surveyKey;
   late PossibleAnswer surveyAnswer;
-  late Color color;
-  late Function(dynamic value) onChangeEnd;
+  late Color backgroundColor;
+  late double titleSizedBoxHeight;
+  late double titleFontSize;
+  late double answerSizedBoxHeight;
+  Function(dynamic value)? onChangeEnd;
+
   QuestionSlider({
     super.key,
     required this.surveyData,
     required this.surveyKey,
     required this.surveyAnswer,
-    required this.onChangeEnd,
-    required this.color,
+    this.onChangeEnd,
+    required this.backgroundColor,
+    this.titleSizedBoxHeight = 128,
+    this.titleFontSize = 24,
+    this.answerSizedBoxHeight = 24,
   });
 
   @override
@@ -31,21 +38,21 @@ class _QuestionSliderState extends State<QuestionSlider> {
         children: [
           Text(
             "${widget.surveyKey} ${widget.surveyAnswer.icon()}",
-            style: const TextStyle(
-              fontSize: 24,
+            style: TextStyle(
+              fontSize: widget.titleFontSize,
             ),
           ),
-          const SizedBox(
-            height: 128,
+          SizedBox(
+            height: widget.titleSizedBoxHeight,
           ),
           Text(widget.surveyAnswer
               .answer(widget.surveyData.answers[widget.surveyKey])),
-          const SizedBox(
-            height: 24,
+          SizedBox(
+            height: widget.answerSizedBoxHeight,
           ),
           SfSlider(
-            activeColor: widget.color,
-            inactiveColor: widget.color.withOpacity(0.2),
+            activeColor: widget.backgroundColor,
+            inactiveColor: widget.backgroundColor.withOpacity(0.2),
             value: widget.surveyData.answers[widget.surveyKey],
             min: 0,
             max: 4,

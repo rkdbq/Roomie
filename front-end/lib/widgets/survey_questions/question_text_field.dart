@@ -7,12 +7,26 @@ class QuestionTextField extends StatefulWidget {
   late SurveyData surveyData;
   late String surveyKey;
   late Comment answer;
+  late List<Color> colors;
+  late bool isMyProfile;
   bool isSurveyDone = false;
+
+  late double titleSizedBoxHeight;
+  late double titleFontSize;
+
+  TextEditingController textEditingController = TextEditingController();
+  Function? updateMyProfileCard;
+
   QuestionTextField({
     super.key,
     required this.surveyData,
     required this.surveyKey,
     required this.answer,
+    required this.colors,
+    this.isMyProfile = false,
+    this.titleFontSize = 24,
+    this.titleSizedBoxHeight = 96,
+    this.updateMyProfileCard,
   });
 
   @override
@@ -24,21 +38,25 @@ class _QuestionTextFieldState extends State<QuestionTextField> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
-          height: 64,
+        Visibility(
+          visible: !widget.isMyProfile,
+          child: const SizedBox(
+            height: 64,
+          ),
         ),
         Text(
           "${widget.surveyKey} ${widget.answer.icon()}",
-          style: const TextStyle(
-            fontSize: 24,
+          style: TextStyle(
+            fontSize: widget.titleFontSize,
           ),
         ),
-        const SizedBox(
-          height: 96,
+        SizedBox(
+          height: widget.titleSizedBoxHeight,
         ),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: TextField(
+            controller: widget.textEditingController,
             decoration: InputDecoration(
               helperText: widget.answer.helperText(),
               hintText: widget.answer.hintText(),
@@ -47,13 +65,16 @@ class _QuestionTextFieldState extends State<QuestionTextField> {
               ),
             ),
             onSubmitted: (value) {
-              widget.surveyData.answers[widget.surveyKey] = value;
-              print(widget.surveyData.answers);
-              setState(
-                () {
-                  widget.isSurveyDone = true;
-                },
-              );
+              if (!saveField()) return;
+              if (widget.updateMyProfileCard != null) {
+                widget.updateMyProfileCard!();
+              }
+            },
+            onTapOutside: (event) {
+              if (!saveField()) return;
+              if (widget.updateMyProfileCard != null) {
+                widget.updateMyProfileCard!();
+              }
             },
           ),
         ),
@@ -65,24 +86,44 @@ class _QuestionTextFieldState extends State<QuestionTextField> {
     );
   }
 
+  bool saveField() {
+    var field = widget.textEditingController.text;
+    if (field.isEmpty) return false;
+    widget.surveyData.answers[widget.surveyKey] =
+        widget.textEditingController.text;
+    print(widget.surveyData.answers);
+    setState(
+      () {
+        widget.isSurveyDone = true;
+      },
+    );
+    return true;
+  }
+
   AnimatedOpacity surveyDoneButton() {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 500),
-      opacity: widget.isSurveyDone ? 1 : 0,
-      child: TextButton(
-        onPressed: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NavigationScreen(
-                surveyData: widget.surveyData,
+      opacity: (widget.isSurveyDone && !widget.isMyProfile) ? 1 : 0,
+      child: Visibility(
+        visible: !widget.isMyProfile,
+        child: TextButton(
+          onPressed: () {
+            if (!widget.isSurveyDone) return;
+            if (!saveField()) return;
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigationScreen(
+                  surveyData: widget.surveyData,
+                  colors: widget.colors,
+                ),
               ),
-            ),
-          );
-        },
-        child: const Text(
-          "룸메이트 찾기",
-          style: TextStyle(fontSize: 20),
+            );
+          },
+          child: const Text(
+            "룸메이트 찾기",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       ),
     );

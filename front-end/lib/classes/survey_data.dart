@@ -208,6 +208,9 @@ class IndoorCalling implements PossibleAnswer {
 }
 
 class Etc implements Comment {
+  late SurveyData data;
+  Etc(this.data);
+
   @override
   String helperText() {
     return "룸메이트 후보들에게 추가로 전하고 싶은 말을 작성해주세요.";
@@ -215,7 +218,7 @@ class Etc implements Comment {
 
   @override
   String hintText() {
-    return "저는 축구를 좋아해요! ⚽️";
+    return data.answers["기타"];
   }
 
   @override
@@ -236,6 +239,6 @@ class SurveyData {
     "이어폰": 0,
     "실내취식": 0,
     "실내통화": 0,
-    "기타": ""
+    "기타": "저는 축구를 좋아해요! ⚽️"
   };
 }

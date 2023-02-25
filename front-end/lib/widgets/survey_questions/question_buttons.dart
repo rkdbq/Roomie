@@ -8,12 +8,20 @@ class QuestionButtons extends StatefulWidget {
   late String surveyKey;
   late PossibleAnswer surveyAnswer;
   late Function() onPressed;
+  late double titleSizedBoxHeight;
+  late double titleFontSize;
+  late double buttonWidth;
+  late double buttonHeight;
   QuestionButtons({
     super.key,
     required this.surveyData,
     required this.surveyKey,
     required this.surveyAnswer,
     required this.onPressed,
+    this.titleSizedBoxHeight = 128,
+    this.titleFontSize = 24,
+    this.buttonWidth = 128,
+    this.buttonHeight = 96,
   });
 
   @override
@@ -27,12 +35,12 @@ class _QuestionButtonsState extends State<QuestionButtons> {
       children: [
         Text(
           "${widget.surveyKey} ${widget.surveyAnswer.icon()}",
-          style: const TextStyle(
-            fontSize: 24,
+          style: TextStyle(
+            fontSize: widget.titleFontSize,
           ),
         ),
-        const SizedBox(
-          height: 128,
+        SizedBox(
+          height: widget.titleSizedBoxHeight,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +71,7 @@ class _QuestionButtonsState extends State<QuestionButtons> {
       String key, int itemType, String answer, Color backgroundColor) {
     return TextButton(
       style: TextButton.styleFrom(
-        fixedSize: const Size(128, 96),
+        fixedSize: Size(widget.buttonWidth, widget.buttonHeight),
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
