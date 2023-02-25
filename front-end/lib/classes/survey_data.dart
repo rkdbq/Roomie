@@ -56,8 +56,8 @@ class CleaningPeriod implements PossibleAnswer {
   List<String> items = [
     "어쩌다 한 번",
     "한달에 한 번",
-    "격주에 한 번",
-    "일주에 한 번",
+    "격주일에 한 번",
+    "일주일에 한 번",
     "매일",
   ];
 
@@ -138,8 +138,8 @@ class RelationshipWithRoomie implements PossibleAnswer {
 class Smoking implements PossibleAnswer {
   @override
   List<String> items = [
-    "비흡연자에요.",
-    "흡연자에요.",
+    "비흡연자예요.",
+    "흡연자예요.",
   ];
 
   @override
@@ -174,7 +174,7 @@ class Earphone implements PossibleAnswer {
 class IndoorDining implements PossibleAnswer {
   @override
   List<String> items = [
-    "먹고 싶지 않아요.",
+    "먹지 않아요.",
     "먹고 싶어요.",
   ];
 
@@ -192,7 +192,7 @@ class IndoorDining implements PossibleAnswer {
 class IndoorCalling implements PossibleAnswer {
   @override
   List<String> items = [
-    "통화하고 싶지 않아요.",
+    "통화하지 않아요.",
     "통화하고 싶어요.",
   ];
 
