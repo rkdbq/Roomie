@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:roomie/classes/survey_data.dart';
-import 'package:roomie/screens/navigation_screen.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
+
 import '../classes/random_color.dart';
+import '../classes/survey_data.dart';
+import '../widgets/survey_questions/question_buttons.dart';
+import '../widgets/survey_questions/question_slider.dart';
+import '../widgets/survey_questions/question_text_field.dart';
 
 class SurveyScreen extends StatefulWidget {
   const SurveyScreen({super.key});
@@ -59,195 +61,64 @@ class _SurveyScreenState extends State<SurveyScreen> {
       opacity: visibilities[index] ? 1 : 0,
       child: Visibility(
         visible: visibilities[index],
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 64,
-            ),
-            Text(
-              "$key ${answer.icon()}",
-              style: const TextStyle(
-                fontSize: 24,
-              ),
-            ),
-            const SizedBox(
-              height: 96,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  helperText: answer.helperText(),
-                  hintText: answer.hintText(),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                onSubmitted: (value) {
-                  surveyData.answers[key] = value;
-                  print(surveyData.answers);
-                  setState(
-                    () {
-                      isSurveyDone = true;
-                    },
-                  );
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            surveyDoneButton(),
-          ],
+        child: QuestionTextField(
+          surveyData: surveyData,
+          surveyKey: key,
+          answer: answer,
         ),
       ),
     );
   }
 
-  AnimatedOpacity surveyDoneButton() {
-    return AnimatedOpacity(
-      duration: const Duration(milliseconds: 500),
-      opacity: isSurveyDone ? 1 : 0,
-      child: TextButton(
-        onPressed: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const NavigationScreen(),
-            ),
-          );
-        },
-        child: const Text(
-          "룸메이트 찾기",
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
-  }
-
-  AnimatedOpacity questionSlider(String key, Answer answer, int index) {
+  AnimatedOpacity questionSlider(String key, PossibleAnswer answer, int index) {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 1000),
       opacity: visibilities[index] ? 1 : 0,
       child: Visibility(
         visible: visibilities[index],
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "$key ${answer.icon()}",
-                style: const TextStyle(
-                  fontSize: 24,
-                ),
-              ),
-              const SizedBox(
-                height: 128,
-              ),
-              Text(answer.answer(surveyData.answers[key])),
-              const SizedBox(
-                height: 24,
-              ),
-              SfSlider(
-                activeColor: colors[index],
-                inactiveColor: colors[index].withOpacity(0.2),
-                value: surveyData.answers[key],
-                min: 0,
-                max: 4,
-                interval: 1,
-                showTicks: true,
-                onChangeEnd: (value) => setState(
-                  () {
-                    visibilities[index] = false;
-                    if (visibilities.length > index + 1) {
-                      visibilities[index + 1] = true;
-                    }
-                    print(surveyData.answers);
-                  },
-                ),
-                onChanged: (dynamic value) {
-                  var val = (value as double).round();
-                  setState(
-                    () {
-                      surveyData.answers[key] = val;
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
+        child: QuestionSlider(
+          surveyData: surveyData,
+          surveyKey: key,
+          surveyAnswer: answer,
+          onChangeEnd: (value) {
+            setState(
+              () {
+                visibilities[index] = false;
+                if (visibilities.length > index + 1) {
+                  visibilities[index + 1] = true;
+                }
+                print(surveyData.answers);
+              },
+            );
+          },
+          color: colors[index],
         ),
       ),
     );
   }
 
-  AnimatedOpacity questionButtons(String key, Answer answer, int index) {
+  AnimatedOpacity questionButtons(
+      String key, PossibleAnswer answer, int index) {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 1000),
       opacity: visibilities[index] ? 1 : 0,
       child: Visibility(
         visible: visibilities[index],
-        child: Column(
-          children: [
-            Text(
-              "$key ${answer.icon()}",
-              style: const TextStyle(
-                fontSize: 24,
-              ),
-            ),
-            const SizedBox(
-              height: 128,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                questionButtonItem(
-                    key,
-                    answer.items.indexOf(answer.items.first),
-                    answer.items.first,
-                    randomColor(),
-                    index),
-                const SizedBox(
-                  width: 48,
-                ),
-                questionButtonItem(key, answer.items.indexOf(answer.items.last),
-                    answer.items.last, randomColor(), index),
-              ],
-            ),
-          ],
+        child: QuestionButtons(
+          surveyData: surveyData,
+          surveyKey: key,
+          surveyAnswer: answer,
+          onPressed: () {
+            setState(
+              () {
+                visibilities[index] = false;
+                if (visibilities.length > index + 1) {
+                  visibilities[index + 1] = true;
+                }
+              },
+            );
+          },
         ),
-      ),
-    );
-  }
-
-  TextButton questionButtonItem(String key, int itemType, String answer,
-      Color backgroundColor, int index) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        fixedSize: const Size(128, 96),
-        backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        elevation: 5,
-      ),
-      onPressed: () {
-        setState(() {
-          visibilities[index] = false;
-          if (visibilities.length > index + 1) {
-            visibilities[index + 1] = true;
-          }
-          surveyData.answers[key] = itemType;
-          print(surveyData.answers);
-        });
-      },
-      child: Text(
-        answer,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.white,
-        ),
-        textAlign: TextAlign.center,
       ),
     );
   }

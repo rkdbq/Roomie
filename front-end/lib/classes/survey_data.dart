@@ -1,4 +1,4 @@
-abstract class Answer {
+abstract class PossibleAnswer {
   late List<String> items;
   String icon();
   String answer(int index);
@@ -10,7 +10,7 @@ abstract class Comment {
   String hintText();
 }
 
-class SleepAt implements Answer {
+class SleepAt implements PossibleAnswer {
   @override
   List<String> items = [
     "오후 10시 이전",
@@ -31,7 +31,7 @@ class SleepAt implements Answer {
   }
 }
 
-class AwakeAt implements Answer {
+class AwakeAt implements PossibleAnswer {
   @override
   List<String> items = [
     "오전 8시 이전",
@@ -51,7 +51,7 @@ class AwakeAt implements Answer {
   }
 }
 
-class CleaningPeriod implements Answer {
+class CleaningPeriod implements PossibleAnswer {
   @override
   List<String> items = [
     "어쩌다 한 번",
@@ -72,7 +72,7 @@ class CleaningPeriod implements Answer {
   }
 }
 
-class SleepingHabit implements Answer {
+class SleepingHabit implements PossibleAnswer {
   @override
   List<String> items = [
     "거의 없는",
@@ -93,7 +93,7 @@ class SleepingHabit implements Answer {
   }
 }
 
-class Extroversion implements Answer {
+class Extroversion implements PossibleAnswer {
   @override
   List<String> items = [
     "매우 내향적인",
@@ -114,7 +114,7 @@ class Extroversion implements Answer {
   }
 }
 
-class RelationshipWithRoomie implements Answer {
+class RelationshipWithRoomie implements PossibleAnswer {
   @override
   List<String> items = [
     "낯선 관계",
@@ -135,7 +135,7 @@ class RelationshipWithRoomie implements Answer {
   }
 }
 
-class Smoking implements Answer {
+class Smoking implements PossibleAnswer {
   @override
   List<String> items = [
     "비흡연자에요.",
@@ -153,7 +153,7 @@ class Smoking implements Answer {
   }
 }
 
-class Earphone implements Answer {
+class Earphone implements PossibleAnswer {
   @override
   List<String> items = [
     "착용하지 않는 편이에요.",
@@ -171,7 +171,7 @@ class Earphone implements Answer {
   }
 }
 
-class IndoorDining implements Answer {
+class IndoorDining implements PossibleAnswer {
   @override
   List<String> items = [
     "먹고 싶지 않아요.",
@@ -189,7 +189,7 @@ class IndoorDining implements Answer {
   }
 }
 
-class IndoorCalling implements Answer {
+class IndoorCalling implements PossibleAnswer {
   @override
   List<String> items = [
     "통화하고 싶지 않아요.",

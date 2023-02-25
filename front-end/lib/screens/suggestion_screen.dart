@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:roomie/widgets/suggested_profile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:swiping_card_deck/swiping_card_deck.dart';
-import '../classes/random_color.dart';
 
-//사용자에게 추천된 룸메이트 후보(suggested_profile)들을 보여줌
+import '../classes/random_color.dart';
+import '../widgets/suggested_profile/suggested_profile.dart';
+
 class SuggestionScreen extends StatefulWidget {
   const SuggestionScreen({super.key});
 

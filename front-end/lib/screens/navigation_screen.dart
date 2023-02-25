@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:roomie/screens/my_chatting_screen.dart';
-import 'package:roomie/screens/my_profile_screen.dart';
 import 'package:roomie/screens/settings.dart';
 import 'package:roomie/screens/suggestion_screen.dart';
 
+import '../classes/survey_data.dart';
+import 'my_chatting_screen.dart';
+import 'my_profile_screen.dart';
+
 class NavigationScreen extends StatefulWidget {
-  const NavigationScreen({super.key});
+  late SurveyData surveyData;
+  NavigationScreen({
+    super.key,
+    required this.surveyData,
+  });
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -32,11 +38,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
           controller: scrollController,
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
-          children: const <Widget>[
-            SuggestionScreen(),
-            MyProfileScreen(),
-            MyChattingScreen(),
-            SettingsScreen(),
+          children: <Widget>[
+            const SuggestionScreen(),
+            MyProfileScreen(
+              surveyData: widget.surveyData,
+            ),
+            const MyChattingScreen(),
+            const SettingsScreen(),
           ],
         ),
       ),
