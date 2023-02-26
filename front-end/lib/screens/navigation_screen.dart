@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:roomie/screens/navigated_screens/my_chatting_screen.dart';
-import 'package:roomie/screens/navigated_screens/settings.dart';
-import 'package:roomie/screens/navigated_screens/suggestion_screen.dart';
+import 'package:roomie/screens/navigated_screens/my_profile_screen.dart';
+import 'package:roomie/screens/navigated_screens/settings_screen.dart';
 
-import '../classes/survey_data.dart';
-import 'navigated_screens/my_profile_screen.dart';
+import '../classes/user_data.dart';
+import 'navigated_screens/deck_screens/deck_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
-  late SurveyData surveyData;
+  late UserData userData;
   late List<Color> colors;
   NavigationScreen({
     super.key,
-    required this.surveyData,
+    required this.userData,
     required this.colors,
   });
 
@@ -34,6 +34,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 2,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       backgroundColor: const Color(0xffeff1f3),
       body: Center(
         child: ListView(
@@ -41,9 +46,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            const SuggestionScreen(),
+            const DeckScreen(),
             MyProfileScreen(
-              surveyData: widget.surveyData,
+              userData: widget.userData,
               colors: widget.colors,
             ),
             const MyChattingScreen(),

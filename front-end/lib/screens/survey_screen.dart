@@ -2,29 +2,35 @@ import 'package:flutter/material.dart';
 
 import '../classes/random_color.dart';
 import '../classes/survey_data.dart';
+import '../classes/user_data.dart';
 import '../widgets/survey_questions/question_buttons.dart';
 import '../widgets/survey_questions/question_slider.dart';
 import '../widgets/survey_questions/question_text_field.dart';
+import 'navigation_screen.dart';
 
 class SurveyScreen extends StatefulWidget {
-  const SurveyScreen({super.key});
+  late UserData userData;
+  SurveyScreen({
+    super.key,
+    required this.userData,
+  });
 
   @override
   State<SurveyScreen> createState() => _SurveyScreenState();
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
-  late SurveyData surveyData;
   late List<bool> visibilities;
   late List<Color> colors;
+  bool isSurveyDone = false;
 
   @override
   void initState() {
-    surveyData = SurveyData();
-    visibilities = List.filled(surveyData.answers.length, false);
+    visibilities =
+        List.filled(widget.userData.surveyData.answers.length, false);
     visibilities[0] = true;
     colors = [];
-    for (var i = 0; i < surveyData.answers.length; i++) {
+    for (var i = 0; i < widget.userData.surveyData.answers.length; i++) {
       colors.add(randomColor());
     }
 
@@ -48,7 +54,8 @@ class _SurveyScreenState extends State<SurveyScreen> {
           questionButtons("이어폰", Earphone(), 7),
           questionButtons("실내취식", IndoorDining(), 8),
           questionButtons("실내통화", IndoorCalling(), 9),
-          questionTextField("기타", Etc(surveyData), 10),
+          questionTextField("기타", Etc(widget.userData.surveyData), 10),
+          surveyDoneButton(),
         ],
       ),
     );
@@ -61,7 +68,17 @@ class _SurveyScreenState extends State<SurveyScreen> {
       child: Visibility(
         visible: visibilities[index],
         child: QuestionTextField(
-          surveyData: surveyData,
+          onSubmitted: () {
+            setState(() {
+              isSurveyDone = true;
+            });
+          },
+          onTapOutside: () {
+            setState(() {
+              isSurveyDone = true;
+            });
+          },
+          userData: widget.userData,
           surveyKey: key,
           answer: answer,
           colors: colors,
@@ -77,7 +94,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       child: Visibility(
         visible: visibilities[index],
         child: QuestionSlider(
-          surveyData: surveyData,
+          surveyData: widget.userData.surveyData,
           surveyKey: key,
           surveyAnswer: answer,
           onChangeEnd: (value) {
@@ -87,7 +104,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
                 if (visibilities.length > index + 1) {
                   visibilities[index + 1] = true;
                 }
-                print(surveyData.answers);
+                print(widget.userData.surveyData.answers);
               },
             );
           },
@@ -105,7 +122,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       child: Visibility(
         visible: visibilities[index],
         child: QuestionButtons(
-          surveyData: surveyData,
+          surveyData: widget.userData.surveyData,
           surveyKey: key,
           surveyAnswer: answer,
           onPressed: () {
@@ -118,6 +135,33 @@ class _SurveyScreenState extends State<SurveyScreen> {
               },
             );
           },
+        ),
+      ),
+    );
+  }
+
+  AnimatedOpacity surveyDoneButton() {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 500),
+      opacity: isSurveyDone ? 1 : 0,
+      child: Visibility(
+        child: TextButton(
+          onPressed: () {
+            if (!isSurveyDone) return;
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigationScreen(
+                  userData: widget.userData,
+                  colors: colors,
+                ),
+              ),
+            );
+          },
+          child: const Text(
+            "룸메이트 찾기",
+            style: TextStyle(fontSize: 20),
+          ),
         ),
       ),
     );

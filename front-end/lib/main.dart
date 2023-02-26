@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:roomie/classes/survey_data.dart';
+import 'package:roomie/classes/user_data.dart';
 import 'package:roomie/screens/survey_screen.dart';
 
 void main() {
@@ -10,8 +12,12 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SurveyScreen(),
+    return MaterialApp(
+      home: SurveyScreen(
+        userData: UserData(
+          surveyData: SurveyData(),
+        ),
+      ),
     );
   }
 }

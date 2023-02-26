@@ -11,6 +11,7 @@ class QuestionSlider extends StatefulWidget {
   late double titleSizedBoxHeight;
   late double titleFontSize;
   late double answerSizedBoxHeight;
+  late bool isMyProfile;
   Function(dynamic value)? onChangeEnd;
 
   QuestionSlider({
@@ -23,6 +24,7 @@ class QuestionSlider extends StatefulWidget {
     this.titleSizedBoxHeight = 128,
     this.titleFontSize = 24,
     this.answerSizedBoxHeight = 24,
+    this.isMyProfile = true,
   });
 
   @override
@@ -51,7 +53,8 @@ class _QuestionSliderState extends State<QuestionSlider> {
             height: widget.answerSizedBoxHeight,
           ),
           SfSlider(
-            activeColor: widget.backgroundColor,
+            activeColor: widget.backgroundColor
+                .withOpacity(widget.isMyProfile ? 1 : 0.2),
             inactiveColor: widget.backgroundColor.withOpacity(0.2),
             value: widget.surveyData.answers[widget.surveyKey],
             min: 0,
@@ -60,10 +63,12 @@ class _QuestionSliderState extends State<QuestionSlider> {
             showTicks: true,
             onChangeEnd: widget.onChangeEnd,
             onChanged: (value) {
+              if (!widget.isMyProfile) return;
               var val = (value as double).round();
               setState(
                 () {
                   widget.surveyData.answers[widget.surveyKey] = val;
+                  print(widget.surveyData.answers);
                 },
               );
             },

@@ -12,6 +12,7 @@ class QuestionButtons extends StatefulWidget {
   late double titleFontSize;
   late double buttonWidth;
   late double buttonHeight;
+  late bool isMyProfile;
   QuestionButtons({
     super.key,
     required this.surveyData,
@@ -22,6 +23,7 @@ class QuestionButtons extends StatefulWidget {
     this.titleFontSize = 24,
     this.buttonWidth = 128,
     this.buttonHeight = 96,
+    this.isMyProfile = true,
   });
 
   @override
@@ -29,6 +31,15 @@ class QuestionButtons extends StatefulWidget {
 }
 
 class _QuestionButtonsState extends State<QuestionButtons> {
+  List<Color> colors = [Colors.grey, Colors.grey];
+
+  @override
+  void initState() {
+    var cur = widget.surveyData.answers[widget.surveyKey];
+    colors[cur] = randomColor();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,49 +61,71 @@ class _QuestionButtonsState extends State<QuestionButtons> {
               widget.surveyAnswer.items
                   .indexOf(widget.surveyAnswer.items.first),
               widget.surveyAnswer.items.first,
-              randomColor(),
+              colors[0],
             ),
-            const SizedBox(
-              width: 48,
+            Visibility(
+              visible: widget.isMyProfile ? true : false,
+              child: const SizedBox(
+                width: 48,
+              ),
             ),
             questionButtonItem(
                 widget.surveyKey,
                 widget.surveyAnswer.items
                     .indexOf(widget.surveyAnswer.items.last),
                 widget.surveyAnswer.items.last,
-                randomColor()),
+                colors[1]),
           ],
         ),
       ],
     );
   }
 
-  TextButton questionButtonItem(
+  Visibility questionButtonItem(
       String key, int itemType, String answer, Color backgroundColor) {
-    return TextButton(
-      style: TextButton.styleFrom(
-        fixedSize: Size(widget.buttonWidth, widget.buttonHeight),
-        backgroundColor: backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    return Visibility(
+      visible: visibilityCheck(key, itemType),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          fixedSize: Size(widget.buttonWidth, widget.buttonHeight),
+          backgroundColor: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          elevation: 5,
         ),
-        elevation: 5,
-      ),
-      onPressed: () {
-        widget.onPressed();
-        setState(() {
-          widget.surveyData.answers[key] = itemType;
-          print(widget.surveyData.answers);
-        });
-      },
-      child: Text(
-        answer,
-        style: const TextStyle(
-          fontSize: 16,
-          color: Colors.white,
+        onPressed: () {
+          if (!widget.isMyProfile) return;
+          widget.onPressed();
+          setState(() {
+            widget.surveyData.answers[key] = itemType;
+            print(widget.surveyData.answers);
+            toggleColor(0, 1);
+          });
+        },
+        child: Text(
+          answer,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
         ),
-        textAlign: TextAlign.center,
       ),
     );
+  }
+
+  bool visibilityCheck(String key, int itemType) {
+    return (widget.isMyProfile || (widget.surveyData.answers[key] == itemType))
+        ? true
+        : false;
+  }
+
+  void toggleColor(int index1, int index2) {
+    RangeError.checkValidIndex(index1, colors, 'index1');
+    RangeError.checkValidIndex(index2, colors, 'index2');
+    var tmp = colors[index1];
+    colors[index1] = colors[index2];
+    colors[index2] = tmp;
   }
 }
