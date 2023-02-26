@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../classes/random_color.dart';
 import '../classes/survey_data.dart';
 import '../classes/user_data.dart';
+import '../themes/roomie_color.dart';
 import '../widgets/survey_questions/question_buttons.dart';
 import '../widgets/survey_questions/question_slider.dart';
 import '../widgets/survey_questions/question_text_field.dart';
@@ -20,27 +20,20 @@ class SurveyScreen extends StatefulWidget {
 }
 
 class _SurveyScreenState extends State<SurveyScreen> {
-  late List<bool> visibilities;
-  late List<Color> colors;
+  late List<bool> visibilities =
+      List.filled(widget.userData.surveyData.answers.length, false);
   bool isSurveyDone = false;
 
   @override
   void initState() {
-    visibilities =
-        List.filled(widget.userData.surveyData.answers.length, false);
     visibilities[0] = true;
-    colors = [];
-    for (var i = 0; i < widget.userData.surveyData.answers.length; i++) {
-      colors.add(randomColor());
-    }
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffeff1f3),
+      backgroundColor: RoomieColor.background,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -54,7 +47,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           questionButtons("이어폰", Earphone(), 7),
           questionButtons("실내취식", IndoorDining(), 8),
           questionButtons("실내통화", IndoorCalling(), 9),
-          questionTextField("기타", Etc(widget.userData.surveyData), 10),
+          questionTextField("기타", Etc(widget.userData), 10),
           surveyDoneButton(),
         ],
       ),
@@ -81,7 +74,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
           userData: widget.userData,
           surveyKey: key,
           answer: answer,
-          colors: colors,
         ),
       ),
     );
@@ -94,7 +86,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       child: Visibility(
         visible: visibilities[index],
         child: QuestionSlider(
-          surveyData: widget.userData.surveyData,
+          userData: widget.userData,
           surveyKey: key,
           surveyAnswer: answer,
           onChangeEnd: (value) {
@@ -108,7 +100,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
               },
             );
           },
-          backgroundColor: colors[index],
+          backgroundColor: widget.userData.color,
         ),
       ),
     );
@@ -122,7 +114,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
       child: Visibility(
         visible: visibilities[index],
         child: QuestionButtons(
-          surveyData: widget.userData.surveyData,
+          userData: widget.userData,
           surveyKey: key,
           surveyAnswer: answer,
           onPressed: () {
@@ -153,7 +145,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
               MaterialPageRoute(
                 builder: (context) => NavigationScreen(
                   userData: widget.userData,
-                  colors: colors,
                 ),
               ),
             );

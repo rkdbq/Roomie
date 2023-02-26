@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:roomie/screens/navigated_screens/my_chatting_screen.dart';
-import 'package:roomie/screens/navigated_screens/my_profile_screen.dart';
-import 'package:roomie/screens/navigated_screens/settings_screen.dart';
 
 import '../classes/user_data.dart';
+import '../themes/roomie_color.dart';
 import 'navigated_screens/deck_screens/deck_screen.dart';
+import 'navigated_screens/my_chatting_screen.dart';
+import 'navigated_screens/my_profile_screen.dart';
+import 'navigated_screens/settings_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
   late UserData userData;
-  late List<Color> colors;
   NavigationScreen({
     super.key,
     required this.userData,
-    required this.colors,
   });
 
   @override
@@ -36,10 +35,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 2,
-        backgroundColor: Colors.transparent,
+        backgroundColor: RoomieColor.appBar,
         elevation: 0,
       ),
-      backgroundColor: const Color(0xffeff1f3),
+      backgroundColor: RoomieColor.background,
       body: Center(
         child: ListView(
           controller: scrollController,
@@ -49,7 +48,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
             const DeckScreen(),
             MyProfileScreen(
               userData: widget.userData,
-              colors: widget.colors,
             ),
             const MyChattingScreen(),
             const SettingsScreen(),
@@ -70,7 +68,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
             topRight: Radius.circular(20),
           ),
           child: BottomNavigationBar(
-            backgroundColor: const Color(0xffffffff),
+            backgroundColor: RoomieColor.navigationBar,
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
@@ -90,8 +88,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ),
             ],
             currentIndex: index,
-            selectedItemColor: const Color(0xff000000),
-            unselectedItemColor: const Color(0xffa9afb7),
+            selectedItemColor: RoomieColor.selectedItem,
+            unselectedItemColor: RoomieColor.unselectedItem,
             iconSize: 30,
             selectedFontSize: 12,
             unselectedFontSize: 12,

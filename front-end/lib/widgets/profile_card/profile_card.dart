@@ -1,34 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:roomie/widgets/profile_card/profile_button.dart';
 
-import '../../classes/random_color.dart';
 import '../../classes/user_data.dart';
 import '../../screens/navigated_screens/deck_screens/other_profile_screen.dart';
 import 'commonalities.dart';
 import 'difference.dart';
 
-class ProfileCard extends StatefulWidget {
+class ProfileCard extends StatelessWidget {
   late UserData userData;
-  Color color = randomColor();
   late bool isMyProfile;
   ProfileCard({
     super.key,
-    required this.color,
     required this.userData,
     this.isMyProfile = false,
   });
 
   @override
-  State<ProfileCard> createState() => _ProfileCardState();
-}
-
-class _ProfileCardState extends State<ProfileCard> {
-  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: widget.color,
+        color: userData.color,
       ),
       width: 300,
       height: 450,
@@ -41,14 +33,14 @@ class _ProfileCardState extends State<ProfileCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  widget.userData.major,
+                  userData.major,
                   style: const TextStyle(
                     fontSize: 30,
                     color: Color(0xff8e8e93),
                   ),
                 ),
                 Text(
-                  widget.userData.studentNumber,
+                  userData.studentNumber,
                   style: const TextStyle(
                     fontSize: 30,
                     color: Color(0xff8e8e93),
@@ -60,14 +52,14 @@ class _ProfileCardState extends State<ProfileCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  widget.userData.studentNumber,
+                  userData.studentNumber,
                   style: const TextStyle(
                     fontSize: 18,
                     color: Color(0xff8e8e93),
                   ),
                 ),
                 Text(
-                  ": ${widget.userData.surveyData.answers["기타"]}",
+                  ": ${userData.surveyData.answers["기타"]}",
                   style: const TextStyle(
                     fontSize: 24,
                     color: Color(0xff8e8e93),
@@ -86,7 +78,7 @@ class _ProfileCardState extends State<ProfileCard> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Visibility(
-                visible: !widget.isMyProfile,
+                visible: !isMyProfile,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -102,7 +94,8 @@ class _ProfileCardState extends State<ProfileCard> {
                       iconData: Icons.description_rounded,
                       labelText: "프로필",
                       onPressed: () {
-                        Navigator.push(context, _createRoute());
+                        Navigator.push(
+                            context, createOtherProfileScreenRoute());
                       },
                     ),
                     ProfileButton(
@@ -118,7 +111,7 @@ class _ProfileCardState extends State<ProfileCard> {
               ),
             ),
             Visibility(
-              visible: widget.isMyProfile,
+              visible: isMyProfile,
               child: const Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: Text(
@@ -136,13 +129,11 @@ class _ProfileCardState extends State<ProfileCard> {
     );
   }
 
-  Route _createRoute() {
+  Route createOtherProfileScreenRoute() {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) =>
           OtherProfileScreen(
-        userData: widget.userData,
-        colors: List.filled(
-            widget.userData.surveyData.answers.length, widget.color),
+        userData: userData,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var begin = const Offset(0.0, 1.0);

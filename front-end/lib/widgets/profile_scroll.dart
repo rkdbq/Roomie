@@ -9,14 +9,12 @@ import 'survey_questions/question_buttons.dart';
 
 class ProfileScroll extends StatefulWidget {
   late UserData userData;
-  late List<Color> colors;
   late Function()? isScrolled;
   late bool isMyProfile;
 
   ProfileScroll({
     super.key,
     required this.userData,
-    required this.colors,
     required this.isMyProfile,
     this.isScrolled,
   });
@@ -73,13 +71,7 @@ class _ProfileScrollState extends State<ProfileScroll> {
                             MediaQuery.of(context).size.height - 96 - 72 * 2,
                         child: Center(
                           child: ProfileCard(
-                            color: const Color(0xffffffff),
-                            userData: UserData(
-                              studentNumber: "19",
-                              major: "컴퓨터공학부",
-                              dormitoryInfo: "새빛1관",
-                              surveyData: widget.userData.surveyData,
-                            ),
+                            userData: widget.userData,
                             isMyProfile: widget.isMyProfile,
                           ),
                         ),
@@ -95,8 +87,7 @@ class _ProfileScrollState extends State<ProfileScroll> {
                     myProfileQuestionButtons("이어폰", Earphone(), 7),
                     myProfileQuestionButtons("실내취식", IndoorDining(), 8),
                     myProfileQuestionButtons("실내통화", IndoorCalling(), 9),
-                    myProfileQuestionTextField(
-                        "기타", Etc(widget.userData.surveyData), 10),
+                    myProfileQuestionTextField("기타", Etc(widget.userData), 10),
                     Visibility(
                       visible: !widget.isMyProfile,
                       child: const SizedBox(
@@ -120,14 +111,14 @@ class _ProfileScrollState extends State<ProfileScroll> {
       child: Container(
         height: 128,
         decoration: BoxDecoration(
-          color: widget.colors[index].withOpacity(0.2),
+          color: widget.userData.color.withOpacity(0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: QuestionSlider(
-          surveyData: widget.userData.surveyData,
+          userData: widget.userData,
           surveyKey: key,
           surveyAnswer: answer,
-          backgroundColor: widget.colors[index],
+          backgroundColor: widget.userData.color,
           titleFontSize: 14,
           titleSizedBoxHeight: 14,
           answerSizedBoxHeight: 14,
@@ -144,11 +135,11 @@ class _ProfileScrollState extends State<ProfileScroll> {
       child: Container(
         height: 128,
         decoration: BoxDecoration(
-          color: widget.colors[index].withOpacity(0.2),
+          color: widget.userData.color.withOpacity(0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: QuestionButtons(
-          surveyData: widget.userData.surveyData,
+          userData: widget.userData,
           surveyKey: key,
           surveyAnswer: answer,
           onPressed: () {},
@@ -168,14 +159,13 @@ class _ProfileScrollState extends State<ProfileScroll> {
       child: Container(
         height: 196,
         decoration: BoxDecoration(
-          color: widget.colors[index].withOpacity(0.2),
+          color: widget.userData.color.withOpacity(0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: QuestionTextField(
           userData: widget.userData,
           surveyKey: key,
           answer: answer,
-          colors: widget.colors,
           titleFontSize: 14,
           titleSizedBoxHeight: 14,
           isDetailProfile: true,

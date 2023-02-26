@@ -1,3 +1,5 @@
+import 'package:roomie/classes/user_data.dart';
+
 abstract class PossibleAnswer {
   late List<String> items;
   String icon();
@@ -208,7 +210,7 @@ class IndoorCalling implements PossibleAnswer {
 }
 
 class Etc implements Comment {
-  late SurveyData data;
+  late UserData data;
   Etc(this.data);
 
   @override
@@ -218,7 +220,7 @@ class Etc implements Comment {
 
   @override
   String hintText() {
-    return data.answers["기타"];
+    return data.surveyData.answers["기타"];
   }
 
   @override

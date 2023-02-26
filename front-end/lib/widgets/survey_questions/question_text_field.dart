@@ -3,11 +3,10 @@ import 'package:roomie/classes/user_data.dart';
 
 import '../../classes/survey_data.dart';
 
-class QuestionTextField extends StatefulWidget {
+class QuestionTextField extends StatelessWidget {
   late UserData userData;
   late String surveyKey;
   late Comment answer;
-  late List<Color> colors;
   late bool isDetailProfile;
   late bool isMyProfile;
   bool isSurveyDone = false;
@@ -24,7 +23,6 @@ class QuestionTextField extends StatefulWidget {
     required this.userData,
     required this.surveyKey,
     required this.answer,
-    required this.colors,
     this.onSubmitted,
     this.onTapOutside,
     this.isDetailProfile = false,
@@ -34,11 +32,6 @@ class QuestionTextField extends StatefulWidget {
     this.updateMyProfileCard,
   });
 
-  @override
-  State<QuestionTextField> createState() => _QuestionTextFieldState();
-}
-
-class _QuestionTextFieldState extends State<QuestionTextField> {
   TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -46,28 +39,28 @@ class _QuestionTextFieldState extends State<QuestionTextField> {
     return Column(
       children: [
         Visibility(
-          visible: !widget.isDetailProfile,
+          visible: !isDetailProfile,
           child: const SizedBox(
             height: 64,
           ),
         ),
         Text(
-          "${widget.surveyKey} ${widget.answer.icon()}",
+          "$surveyKey ${answer.icon()}",
           style: TextStyle(
-            fontSize: widget.titleFontSize,
+            fontSize: titleFontSize,
           ),
         ),
         SizedBox(
-          height: widget.titleSizedBoxHeight,
+          height: titleSizedBoxHeight,
         ),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: TextField(
-            readOnly: !widget.isMyProfile,
+            readOnly: !isMyProfile,
             controller: textEditingController,
             decoration: InputDecoration(
-              helperText: widget.answer.helperText(),
-              hintText: widget.answer.hintText(),
+              helperText: answer.helperText(),
+              hintText: answer.hintText(),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10.0),
               ),
@@ -75,30 +68,30 @@ class _QuestionTextFieldState extends State<QuestionTextField> {
             onSubmitted: (value) {
               if (textEditingController.text.isEmpty) return;
               if (textEditingController.text ==
-                  widget.userData.surveyData.answers[widget.surveyKey]) return;
-              widget.userData.surveyData.answers[widget.surveyKey] =
+                  userData.surveyData.answers[surveyKey]) return;
+              userData.surveyData.answers[surveyKey] =
                   textEditingController.text;
-              if (widget.onSubmitted != null) {
-                widget.onSubmitted!();
+              if (onSubmitted != null) {
+                onSubmitted!();
               }
-              if (widget.updateMyProfileCard != null) {
-                widget.updateMyProfileCard!();
+              if (updateMyProfileCard != null) {
+                updateMyProfileCard!();
               }
-              print(widget.userData.surveyData.answers);
+              print(userData.surveyData.answers);
             },
             onTapOutside: (event) {
               if (textEditingController.text.isEmpty) return;
               if (textEditingController.text ==
-                  widget.userData.surveyData.answers[widget.surveyKey]) return;
-              widget.userData.surveyData.answers[widget.surveyKey] =
+                  userData.surveyData.answers[surveyKey]) return;
+              userData.surveyData.answers[surveyKey] =
                   textEditingController.text;
-              if (widget.onTapOutside != null) {
-                widget.onTapOutside!();
+              if (onTapOutside != null) {
+                onTapOutside!();
               }
-              if (widget.updateMyProfileCard != null) {
-                widget.updateMyProfileCard!();
+              if (updateMyProfileCard != null) {
+                updateMyProfileCard!();
               }
-              print(widget.userData.surveyData.answers);
+              print(userData.surveyData.answers);
             },
           ),
         ),

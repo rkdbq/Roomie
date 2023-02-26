@@ -1,43 +1,36 @@
 import 'package:flutter/material.dart';
 
 import '../../../classes/user_data.dart';
+import '../../../themes/roomie_color.dart';
 import '../../../widgets/profile_scroll.dart';
 
-class OtherProfileScreen extends StatefulWidget {
+class OtherProfileScreen extends StatelessWidget {
   late UserData userData;
-  late List<Color> colors;
   OtherProfileScreen({
     super.key,
     required this.userData,
-    required this.colors,
   });
 
-  @override
-  State<OtherProfileScreen> createState() => _OtherProfileScreenState();
-}
-
-class _OtherProfileScreenState extends State<OtherProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.close,
             size: 28,
-            color: Color(0xff8e8e93),
+            color: RoomieColor.mainText,
           ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: RoomieColor.appBar,
         elevation: 0,
       ),
-      backgroundColor: const Color(0xffeff1f3),
+      backgroundColor: RoomieColor.background,
       body: ProfileScroll(
-        userData: widget.userData,
-        colors: widget.colors,
+        userData: userData,
         isMyProfile: false,
         isScrolled: () {
           Navigator.pop(context);

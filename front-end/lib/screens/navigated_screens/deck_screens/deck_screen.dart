@@ -19,27 +19,9 @@ class _DeckScreenState extends State<DeckScreen> {
 
   @override
   void initState() {
+    profiles.add(randomProfileCard());
+    profiles.add(randomProfileCard());
     super.initState();
-
-    profiles.add(ProfileCard(
-      color: const Color(0xffffffff),
-      userData: UserData(
-        major: "컴퓨터공학부",
-        studentNumber: "19",
-        dormitoryInfo: "새빛1관",
-        surveyData: SurveyData(),
-      ),
-    ));
-
-    profiles.add(ProfileCard(
-      color: randomColor(),
-      userData: UserData(
-        major: "컴퓨터공학부",
-        studentNumber: "19",
-        dormitoryInfo: "새빛1관",
-        surveyData: SurveyData(),
-      ),
-    ));
   }
 
   @override
@@ -57,24 +39,26 @@ class _DeckScreenState extends State<DeckScreen> {
   int swipeDeck() => swipeCount++;
 
   void replaceDeck() {
-    swipeCount++;
-    profiles.clear();
-    while (swipeCount > 0) {
-      profiles.add(
-        ProfileCard(
-          color: randomColor(),
-          userData: UserData(
-            major: "컴퓨터공학부",
-            studentNumber: "19",
-            dormitoryInfo: "새빛1관",
-            surveyData: SurveyData(),
-          ),
-        ),
-      );
-      swipeCount--;
-    }
     setState(
-      () {},
+      () {
+        swipeCount++;
+        profiles.clear();
+        while (swipeCount > 0) {
+          profiles.add(
+            randomProfileCard(),
+          );
+          swipeCount--;
+        }
+      },
+    );
+  }
+
+  ProfileCard randomProfileCard() {
+    return ProfileCard(
+      userData: UserData(
+        surveyData: SurveyData(),
+        color: randomColor(),
+      ),
     );
   }
 }

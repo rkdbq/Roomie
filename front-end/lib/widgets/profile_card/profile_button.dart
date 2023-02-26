@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ProfileButton extends StatefulWidget {
+class ProfileButton extends StatelessWidget {
   final Color backgroundColor;
   final IconData iconData;
   final String labelText;
@@ -15,27 +15,22 @@ class ProfileButton extends StatefulWidget {
   });
 
   @override
-  State<ProfileButton> createState() => _ProfileButtonState();
-}
-
-class _ProfileButtonState extends State<ProfileButton> {
-  @override
   Widget build(BuildContext context) {
     return TextButton.icon(
       style: TextButton.styleFrom(
-        backgroundColor: widget.backgroundColor,
+        backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
         elevation: 5,
       ),
-      onPressed: widget.onPressed,
+      onPressed: onPressed,
       icon: Icon(
-        widget.iconData,
+        iconData,
         color: Colors.white,
       ),
       label: Text(
-        widget.labelText,
+        labelText,
         style:
             const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),

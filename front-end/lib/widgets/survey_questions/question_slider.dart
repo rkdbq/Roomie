@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:roomie/classes/user_data.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 import '../../classes/survey_data.dart';
 
 class QuestionSlider extends StatefulWidget {
-  late SurveyData surveyData;
+  late UserData userData;
   late String surveyKey;
   late PossibleAnswer surveyAnswer;
   late Color backgroundColor;
@@ -16,7 +17,7 @@ class QuestionSlider extends StatefulWidget {
 
   QuestionSlider({
     super.key,
-    required this.surveyData,
+    required this.userData,
     required this.surveyKey,
     required this.surveyAnswer,
     this.onChangeEnd,
@@ -48,7 +49,7 @@ class _QuestionSliderState extends State<QuestionSlider> {
             height: widget.titleSizedBoxHeight,
           ),
           Text(widget.surveyAnswer
-              .answer(widget.surveyData.answers[widget.surveyKey])),
+              .answer(widget.userData.surveyData.answers[widget.surveyKey])),
           SizedBox(
             height: widget.answerSizedBoxHeight,
           ),
@@ -56,7 +57,7 @@ class _QuestionSliderState extends State<QuestionSlider> {
             activeColor: widget.backgroundColor
                 .withOpacity(widget.isMyProfile ? 1 : 0.2),
             inactiveColor: widget.backgroundColor.withOpacity(0.2),
-            value: widget.surveyData.answers[widget.surveyKey],
+            value: widget.userData.surveyData.answers[widget.surveyKey],
             min: 0,
             max: 4,
             interval: 1,
@@ -67,8 +68,8 @@ class _QuestionSliderState extends State<QuestionSlider> {
               var val = (value as double).round();
               setState(
                 () {
-                  widget.surveyData.answers[widget.surveyKey] = val;
-                  print(widget.surveyData.answers);
+                  widget.userData.surveyData.answers[widget.surveyKey] = val;
+                  print(widget.userData.surveyData.answers);
                 },
               );
             },

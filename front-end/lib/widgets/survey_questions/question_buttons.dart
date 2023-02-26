@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../classes/random_color.dart';
 import '../../classes/survey_data.dart';
+import '../../classes/user_data.dart';
 
 class QuestionButtons extends StatefulWidget {
-  late SurveyData surveyData;
+  late UserData userData;
   late String surveyKey;
   late PossibleAnswer surveyAnswer;
   late Function() onPressed;
@@ -15,7 +15,7 @@ class QuestionButtons extends StatefulWidget {
   late bool isMyProfile;
   QuestionButtons({
     super.key,
-    required this.surveyData,
+    required this.userData,
     required this.surveyKey,
     required this.surveyAnswer,
     required this.onPressed,
@@ -35,8 +35,8 @@ class _QuestionButtonsState extends State<QuestionButtons> {
 
   @override
   void initState() {
-    var cur = widget.surveyData.answers[widget.surveyKey];
-    colors[cur] = randomColor();
+    var chosen = widget.userData.surveyData.answers[widget.surveyKey];
+    colors[chosen] = widget.userData.color;
     super.initState();
   }
 
@@ -98,8 +98,8 @@ class _QuestionButtonsState extends State<QuestionButtons> {
           if (!widget.isMyProfile) return;
           widget.onPressed();
           setState(() {
-            widget.surveyData.answers[key] = itemType;
-            print(widget.surveyData.answers);
+            widget.userData.surveyData.answers[key] = itemType;
+            print(widget.userData.surveyData.answers);
             toggleColor(0, 1);
           });
         },
@@ -116,7 +116,8 @@ class _QuestionButtonsState extends State<QuestionButtons> {
   }
 
   bool visibilityCheck(String key, int itemType) {
-    return (widget.isMyProfile || (widget.surveyData.answers[key] == itemType))
+    return (widget.isMyProfile ||
+            (widget.userData.surveyData.answers[key] == itemType))
         ? true
         : false;
   }
