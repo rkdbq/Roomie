@@ -164,7 +164,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
   Future<void> addUser(UserData data, CollectionReference users) {
     return users
         .add(
-          {
+          { //test
             "student_number": data.studentNumber,
             "major": data.major,
             "dormitory_info": data.dormitoryInfo,
