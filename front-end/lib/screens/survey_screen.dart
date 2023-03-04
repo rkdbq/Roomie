@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../classes/survey_data.dart';
@@ -32,6 +33,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference users = FirebaseFirestore.instance.collection("users");
     return Scaffold(
       backgroundColor: RoomieColor.background,
       body: Column(
@@ -48,7 +50,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           questionButtons("실내취식", IndoorDining(), 8),
           questionButtons("실내통화", IndoorCalling(), 9),
           questionTextField("기타", Etc(widget.userData), 10),
-          surveyDoneButton(),
+          surveyDoneButton(users),
         ],
       ),
     );
@@ -132,7 +134,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
     );
   }
 
-  AnimatedOpacity surveyDoneButton() {
+  AnimatedOpacity surveyDoneButton(CollectionReference users) {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 500),
       opacity: isSurveyDone ? 1 : 0,
@@ -140,6 +142,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
         child: TextButton(
           onPressed: () {
             if (!isSurveyDone) return;
+            addUser(widget.userData, users);
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -156,5 +159,19 @@ class _SurveyScreenState extends State<SurveyScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> addUser(UserData data, CollectionReference users) {
+    return users
+        .add(
+          {
+            "student_number": data.studentNumber,
+            "major": data.major,
+            "dormitory_info": data.dormitoryInfo,
+            "color": data.color.toString(),
+          },
+        )
+        .then((value) => print("user added"))
+        .catchError((error) => print("fail to add user: $error"));
   }
 }

@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:roomie/classes/random_color.dart';
 import 'package:roomie/classes/survey_data.dart';
 import 'package:roomie/classes/user_data.dart';
+import 'package:roomie/firebase_options.dart';
 import 'package:roomie/screens/navigation_screen.dart';
 import 'package:roomie/screens/survey_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(App());
 }
 
