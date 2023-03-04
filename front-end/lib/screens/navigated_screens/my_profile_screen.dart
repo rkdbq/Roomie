@@ -1,20 +1,20 @@
 import 'package:flutter/widgets.dart';
-import 'package:roomie/widgets/profile_scroll.dart';
 
 import '../../classes/user_data.dart';
+import '../../widgets/detailed_profile.dart';
 
 class MyProfileScreen extends StatelessWidget {
-  late UserData userData;
-  MyProfileScreen({
+  final UserData userData;
+  const MyProfileScreen({
     super.key,
     required this.userData,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ProfileScroll(
+    return DetailedProfile(
       userData: userData,
-      isMyProfile: true,
+      isMine: true,
     );
   }
 }

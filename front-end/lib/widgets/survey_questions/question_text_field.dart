@@ -45,7 +45,7 @@ class QuestionTextField extends StatelessWidget {
           ),
         ),
         Text(
-          "$surveyKey ${answer.icon()}",
+          "${answer.title()} ${answer.icon()}",
           style: TextStyle(
             fontSize: titleFontSize,
           ),

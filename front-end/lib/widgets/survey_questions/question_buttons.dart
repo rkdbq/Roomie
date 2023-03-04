@@ -45,7 +45,7 @@ class _QuestionButtonsState extends State<QuestionButtons> {
     return Column(
       children: [
         Text(
-          "${widget.surveyKey} ${widget.surveyAnswer.icon()}",
+          "${widget.surveyAnswer.title()} ${widget.surveyAnswer.icon()}",
           style: TextStyle(
             fontSize: widget.titleFontSize,
           ),

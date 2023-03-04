@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:roomie/classes/user_data.dart';
+import 'package:roomie/themes/roomie_color.dart';
 import 'package:roomie/widgets/survey_questions/question_slider.dart';
 import 'package:roomie/widgets/survey_questions/question_text_field.dart';
 
@@ -7,23 +9,24 @@ import '../classes/survey_data.dart';
 import 'profile_card/profile_card.dart';
 import 'survey_questions/question_buttons.dart';
 
-class ProfileScroll extends StatefulWidget {
+class DetailedProfile extends StatefulWidget {
   late UserData userData;
   late Function()? isScrolled;
-  late bool isMyProfile;
+  late bool isMine;
 
-  ProfileScroll({
+  DetailedProfile({
     super.key,
     required this.userData,
-    required this.isMyProfile,
+    required this.isMine,
     this.isScrolled,
   });
 
   @override
-  State<ProfileScroll> createState() => _ProfileScrollState();
+  State<DetailedProfile> createState() => _DetailedProfileState();
 }
 
-class _ProfileScrollState extends State<ProfileScroll> {
+class _DetailedProfileState extends State<DetailedProfile> {
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
   ScrollController scrollController = ScrollController();
   @override
   void initState() {
@@ -64,32 +67,36 @@ class _ProfileScrollState extends State<ProfileScroll> {
                       height: 44,
                     ),
                     Visibility(
-                      visible: widget.isMyProfile,
+                      visible: widget.isMine,
                       child: Container(
-                        color: const Color(0xffeff1f3),
+                        color: RoomieColor.background,
                         height:
                             MediaQuery.of(context).size.height - 96 - 72 * 2,
                         child: Center(
                           child: ProfileCard(
                             userData: widget.userData,
-                            isMyProfile: widget.isMyProfile,
+                            isMine: widget.isMine,
                           ),
                         ),
                       ),
                     ),
-                    myProfileQuestionSlider("취침시간", SleepAt(), 0),
-                    myProfileQuestionSlider("기상시간", AwakeAt(), 1),
-                    myProfileQuestionSlider("청소주기", CleaningPeriod(), 2),
-                    myProfileQuestionSlider("관계", RelationshipWithRoomie(), 3),
-                    myProfileQuestionSlider("잠버릇", SleepingHabit(), 4),
-                    myProfileQuestionSlider("외향성", Extroversion(), 5),
-                    myProfileQuestionButtons("흡연", Smoking(), 6),
-                    myProfileQuestionButtons("이어폰", Earphone(), 7),
-                    myProfileQuestionButtons("실내취식", IndoorDining(), 8),
-                    myProfileQuestionButtons("실내통화", IndoorCalling(), 9),
-                    myProfileQuestionTextField("기타", Etc(widget.userData), 10),
+                    myProfileQuestionSlider("sleep_at", SleepAt(), 0),
+                    myProfileQuestionSlider("awake_at", AwakeAt(), 1),
+                    myProfileQuestionSlider(
+                        "cleaning_period", CleaningPeriod(), 2),
+                    myProfileQuestionSlider("relationship", Relationship(), 3),
+                    myProfileQuestionSlider(
+                        "sleeping_habits", SleepingHabits(), 4),
+                    myProfileQuestionSlider("extroversion", Extroversion(), 5),
+                    myProfileQuestionButtons("smoking", Smoking(), 6),
+                    myProfileQuestionButtons("earphone", Earphone(), 7),
+                    myProfileQuestionButtons(
+                        "indoor_eating", IndoorEating(), 8),
+                    myProfileQuestionButtons(
+                        "indoor_calling", IndoorCalling(), 9),
+                    myProfileQuestionTextField("etc", Etc(widget.userData), 10),
                     Visibility(
-                      visible: !widget.isMyProfile,
+                      visible: !widget.isMine,
                       child: const SizedBox(
                         height: 72,
                       ),
@@ -122,7 +129,7 @@ class _ProfileScrollState extends State<ProfileScroll> {
           titleFontSize: 14,
           titleSizedBoxHeight: 14,
           answerSizedBoxHeight: 14,
-          isMyProfile: widget.isMyProfile,
+          isMyProfile: widget.isMine,
         ),
       ),
     );
@@ -147,7 +154,7 @@ class _ProfileScrollState extends State<ProfileScroll> {
           titleSizedBoxHeight: 24,
           buttonHeight: 64,
           buttonWidth: 96,
-          isMyProfile: widget.isMyProfile,
+          isMyProfile: widget.isMine,
         ),
       ),
     );
@@ -169,14 +176,12 @@ class _ProfileScrollState extends State<ProfileScroll> {
           titleFontSize: 14,
           titleSizedBoxHeight: 14,
           isDetailProfile: true,
-          isMyProfile: widget.isMyProfile,
-          updateMyProfileCard: updateMyProfileCard,
+          isMyProfile: widget.isMine,
+          updateMyProfileCard: () {
+            setState(() {});
+          },
         ),
       ),
     );
-  }
-
-  void updateMyProfileCard() {
-    setState(() {});
   }
 }

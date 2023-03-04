@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roomie/themes/roomie_color.dart';
 import 'package:roomie/widgets/profile_card/profile_button.dart';
 
 import '../../classes/user_data.dart';
@@ -8,11 +9,11 @@ import 'difference.dart';
 
 class ProfileCard extends StatelessWidget {
   late UserData userData;
-  late bool isMyProfile;
+  late bool isMine;
   ProfileCard({
     super.key,
     required this.userData,
-    this.isMyProfile = false,
+    this.isMine = false,
   });
 
   @override
@@ -34,16 +35,16 @@ class ProfileCard extends StatelessWidget {
               children: [
                 Text(
                   userData.major,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 30,
-                    color: Color(0xff8e8e93),
+                    color: RoomieColor.mainText,
                   ),
                 ),
                 Text(
                   userData.studentNumber,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 30,
-                    color: Color(0xff8e8e93),
+                    color: RoomieColor.mainText,
                   ),
                 ),
               ],
@@ -53,16 +54,16 @@ class ProfileCard extends StatelessWidget {
               children: [
                 Text(
                   userData.studentNumber,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
-                    color: Color(0xff8e8e93),
+                    color: RoomieColor.mainText,
                   ),
                 ),
                 Text(
-                  ": ${userData.surveyData.answers["기타"]}",
-                  style: const TextStyle(
+                  ": ${userData.surveyData.answers["etc"]}",
+                  style: TextStyle(
                     fontSize: 24,
-                    color: Color(0xff8e8e93),
+                    color: RoomieColor.mainText,
                   ),
                 ),
               ],
@@ -78,7 +79,7 @@ class ProfileCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Visibility(
-                visible: !isMyProfile,
+                visible: !isMine,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -111,7 +112,7 @@ class ProfileCard extends StatelessWidget {
               ),
             ),
             Visibility(
-              visible: isMyProfile,
+              visible: isMine,
               child: const Padding(
                 padding: EdgeInsets.only(top: 16.0),
                 child: Text(

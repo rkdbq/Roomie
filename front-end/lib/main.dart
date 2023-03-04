@@ -4,7 +4,7 @@ import 'package:roomie/classes/random_color.dart';
 import 'package:roomie/classes/survey_data.dart';
 import 'package:roomie/classes/user_data.dart';
 import 'package:roomie/firebase_options.dart';
-import 'package:roomie/screens/navigation_screen.dart';
+import 'package:roomie/screens/home_screen.dart';
 import 'package:roomie/screens/survey_screen.dart';
 
 void main() async {
@@ -12,19 +12,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(App());
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
-  bool isSurveyDone = false;
-  UserData myData = UserData(surveyData: SurveyData(), color: randomColor());
-  App({super.key});
+  final bool isSurveyDone = false;
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
+    UserData myData =
+        UserData(surveyData: SurveyData(), color: randomColor()); //임시 랜덤 생성
     return MaterialApp(
       home: isSurveyDone
-          ? NavigationScreen(userData: myData)
+          ? HomeScreen(userData: myData)
           : SurveyScreen(userData: myData),
     );
   }

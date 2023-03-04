@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../classes/user_data.dart';
 import '../../../themes/roomie_color.dart';
-import '../../../widgets/profile_scroll.dart';
+import '../../../widgets/detailed_profile.dart';
 
 class OtherProfileScreen extends StatelessWidget {
   late UserData userData;
@@ -29,9 +29,9 @@ class OtherProfileScreen extends StatelessWidget {
         elevation: 0,
       ),
       backgroundColor: RoomieColor.background,
-      body: ProfileScroll(
+      body: DetailedProfile(
         userData: userData,
-        isMyProfile: false,
+        isMine: false,
         isScrolled: () {
           Navigator.pop(context);
         },

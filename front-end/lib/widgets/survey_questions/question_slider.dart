@@ -40,7 +40,7 @@ class _QuestionSliderState extends State<QuestionSlider> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "${widget.surveyKey} ${widget.surveyAnswer.icon()}",
+            "${widget.surveyAnswer.title()} ${widget.surveyAnswer.icon()}",
             style: TextStyle(
               fontSize: widget.titleFontSize,
             ),
