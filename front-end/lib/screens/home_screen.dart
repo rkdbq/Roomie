@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:roomie/classes/user_data.dart';
 import 'package:roomie/screens/navigation_screen.dart';
+import 'package:roomie/themes/roomie_color.dart';
 
 class HomeScreen extends StatelessWidget {
   final UserData userData;
@@ -31,7 +32,12 @@ class HomeScreen extends StatelessWidget {
           return NavigationScreen(userData: userData);
         }
 
-        return const Text("loading");
+        return Container(
+          decoration: BoxDecoration(color: RoomieColor.background),
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }
