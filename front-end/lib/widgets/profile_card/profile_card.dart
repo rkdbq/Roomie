@@ -113,11 +113,11 @@ class ProfileCard extends StatelessWidget {
             ),
             Visibility(
               visible: isMine,
-              child: const Padding(
-                padding: EdgeInsets.only(top: 16.0),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
                 child: Text(
-                  "이름",
-                  style: TextStyle(
+                  userData.name,
+                  style: const TextStyle(
                       fontSize: 20,
                       color: Color(0xff8e8e93),
                       fontWeight: FontWeight.bold),

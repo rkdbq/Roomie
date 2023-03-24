@@ -178,7 +178,12 @@ class _DetailedProfileState extends State<DetailedProfile> {
           isDetailProfile: true,
           isMyProfile: widget.isMine,
           updateMyProfileCard: () {
-            setState(() {});
+            setState(() {
+              final user = FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(widget.userData.email);
+              user.update({key: widget.userData.surveyData.answers[key]});
+            });
           },
         ),
       ),

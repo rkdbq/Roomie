@@ -21,8 +21,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserData myData =
-        UserData(surveyData: SurveyData(), color: randomColor()); //임시 랜덤 생성
+    UserData myData = UserData(
+      email: "rkdbg11752@jbnu.ac.kr",
+      password: "kang1293",
+      name: "강봉구",
+      surveyData: SurveyData(),
+      color: randomColor(),
+    ); //임시 랜덤 생성
     return MaterialApp(
       home: isSurveyDone
           ? HomeScreen(userData: myData)

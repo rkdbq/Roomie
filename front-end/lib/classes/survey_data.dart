@@ -202,7 +202,7 @@ class Earphone implements PossibleAnswer {
 
   @override
   String title() {
-    return "수면시간";
+    return "이어폰";
   }
 
   @override

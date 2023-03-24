@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:roomie/classes/user_data.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -68,6 +69,10 @@ class _QuestionSliderState extends State<QuestionSlider> {
               var val = (value as double).round();
               setState(
                 () {
+                  final user = FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(widget.userData.email);
+                  user.update({widget.surveyKey: val});
                   widget.userData.surveyData.answers[widget.surveyKey] = val;
                   print(widget.userData.surveyData.answers);
                 },

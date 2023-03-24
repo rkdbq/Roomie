@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:roomie/classes/survey_data.dart';
 import 'package:roomie/classes/user_data.dart';
 import 'package:swiping_card_deck/swiping_card_deck.dart';
 
-import '../../../classes/random_color.dart';
 import '../../../widgets/profile_card/profile_card.dart';
 
 class DeckScreen extends StatefulWidget {
@@ -16,11 +15,19 @@ class DeckScreen extends StatefulWidget {
 class _DeckScreenState extends State<DeckScreen> {
   int swipeCount = 0;
   List<ProfileCard> profiles = [];
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   @override
   void initState() {
-    profiles.add(randomProfileCard());
-    profiles.add(randomProfileCard());
+    QueryDocumentSnapshot<Object?> lastVisible;
+    final first = users.orderBy("name").limit(10).get().then(
+      (documentSnapshots) {
+        lastVisible = documentSnapshots.docs[documentSnapshots.size - 1];
+        for (var document in documentSnapshots.docs) {
+          profiles.add(randomProfileCard(document));
+        }
+      },
+    );
     super.initState();
   }
 
@@ -41,24 +48,22 @@ class _DeckScreenState extends State<DeckScreen> {
   void replaceDeck() {
     setState(
       () {
-        swipeCount++;
-        profiles.clear();
-        while (swipeCount > 0) {
-          profiles.add(
-            randomProfileCard(),
-          );
-          swipeCount--;
-        }
+        // swipeCount++;
+        // profiles.clear();
+        // while (swipeCount > 0) {
+        //   profiles.add(
+        //     randomProfileCard(),
+        //   );
+        //   swipeCount--;
+        // }
       },
     );
   }
 
-  ProfileCard randomProfileCard() {
+  ProfileCard randomProfileCard(
+      QueryDocumentSnapshot<Object?> documentSnapshot) {
     return ProfileCard(
-      userData: UserData(
-        surveyData: SurveyData(),
-        color: randomColor(),
-      ),
+      userData: UserData.fromFirestore(documentSnapshot),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../../classes/survey_data.dart';
@@ -100,7 +101,16 @@ class _QuestionButtonsState extends State<QuestionButtons> {
           setState(() {
             widget.userData.surveyData.answers[key] = itemType;
             print(widget.userData.surveyData.answers);
-            toggleColor(0, 1);
+            var chosen = widget.userData.surveyData.answers[widget.surveyKey];
+            var notChosen = 0;
+            chosen == 0 ? notChosen = 1 : notChosen = 0;
+            colors[chosen] = widget.userData.color;
+            colors[notChosen] = Colors.grey;
+
+            final user = FirebaseFirestore.instance
+                .collection("users")
+                .doc(widget.userData.email);
+            user.update({key: widget.userData.surveyData.answers[key]});
           });
         },
         child: Text(

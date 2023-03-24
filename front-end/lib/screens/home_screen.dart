@@ -5,8 +5,8 @@ import 'package:roomie/screens/navigation_screen.dart';
 import 'package:roomie/themes/roomie_color.dart';
 
 class HomeScreen extends StatelessWidget {
-  final UserData userData;
-  const HomeScreen({
+  UserData userData;
+  HomeScreen({
     super.key,
     required this.userData,
   });
@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     CollectionReference users = FirebaseFirestore.instance.collection("users");
 
     return FutureBuilder<DocumentSnapshot>(
-      future: users.doc("xeePOovlz7SLaGAQcCd1").get(),
+      future: users.doc(userData.email).get(),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
@@ -28,7 +28,6 @@ class HomeScreen extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          parceFirebaseData(snapshot);
           return NavigationScreen(userData: userData);
         }
 
@@ -42,15 +41,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void parceFirebaseData(AsyncSnapshot<DocumentSnapshot> snapshot) {
-    Map<String, dynamic> firebaseData =
-        snapshot.data!.data() as Map<String, dynamic>;
-    userData.studentNumber = firebaseData["student_number"];
-    userData.major = firebaseData["major"];
-    userData.dormitoryInfo = firebaseData["dormitory_info"];
-    userData.color = Color(firebaseData["color"]);
-    userData.surveyData.answers.forEach((key, value) {
-      userData.surveyData.answers[key] = firebaseData[key];
-    });
-  }
+  // void parceFirebaseData(AsyncSnapshot<DocumentSnapshot> snapshot) {
+  //   Map<String, dynamic> firebaseData =
+  //       snapshot.data!.data() as Map<String, dynamic>;
+  //   userData.name = firebaseData["name"];
+  //   userData.studentNumber = firebaseData["student_number"];
+  //   userData.major = firebaseData["major"];
+  //   userData.dormitoryInfo = firebaseData["dormitory_info"];
+  //   userData.color = Color(firebaseData["color"]);
+  //   userData.surveyData.answers.forEach((key, value) {
+  //     userData.surveyData.answers[key] = firebaseData[key];
+  //   });
+  // }
 }

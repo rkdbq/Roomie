@@ -163,24 +163,9 @@ class _SurveyScreenState extends State<SurveyScreen> {
 
   Future<void> registration(UserData data, CollectionReference users) {
     return users
-        .add(
-          {
-            "student_number": data.studentNumber,
-            "major": data.major,
-            "dormitory_info": data.dormitoryInfo,
-            "color": data.color.value,
-            "sleep_at": data.surveyData.answers["sleep_at"],
-            "awake_at": data.surveyData.answers["awake_at"],
-            "cleaning_period": data.surveyData.answers["cleaning_period"],
-            "relationship": data.surveyData.answers["relationship"],
-            "sleeping_habits": data.surveyData.answers["sleeping_habits"],
-            "extroversion": data.surveyData.answers["extroversion"],
-            "smoking": data.surveyData.answers["smoking"],
-            "earphone": data.surveyData.answers["earphone"],
-            "indoor_eating": data.surveyData.answers["indoor_eating"],
-            "indoor_calling": data.surveyData.answers["indoor_calling"],
-            "etc": data.surveyData.answers["etc"],
-          },
+        .doc(data.email)
+        .set(
+          data.toFirestore(),
         )
         .then((value) => print("user added"))
         .catchError((error) => print("fail to add user: $error"));
