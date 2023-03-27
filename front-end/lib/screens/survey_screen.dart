@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:roomie/screens/home_screen.dart';
+import 'package:roomie/screens/navigation_screen.dart';
 
 import '../classes/survey_data.dart';
 import '../classes/user_data.dart';
@@ -146,7 +146,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(
+                builder: (context) => NavigationScreen(
                   userData: widget.userData,
                 ),
               ),

@@ -38,7 +38,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           physics: const NeverScrollableScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: <Widget>[
-            const DeckScreen(),
+            DeckScreen(
+              userData: widget.userData,
+            ),
             MyProfileScreen(
               userData: widget.userData,
             ),
@@ -60,6 +62,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
       ),
     );
   }
+
+  
 
   void animateListView(int index) {
     scrollController.animateTo(

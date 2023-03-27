@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:roomie/classes/survey_data.dart';
 
 class UserData {
-  String? email, password;
+  String email, password;
   late String name, studentNumber, major, dormitoryInfo;
   late SurveyData surveyData;
   late Color color;
@@ -12,17 +12,17 @@ class UserData {
     this.studentNumber = "19",
     this.major = "컴퓨터공학부",
     this.dormitoryInfo = "새빛1관",
-    this.email,
-    this.password,
-    required this.name,
+    required this.email,
+    this.password = "",
+    this.name = "",
     required this.surveyData,
     required this.color,
   });
 
   factory UserData.fromFirestore(
-    QueryDocumentSnapshot<Object?> snapshot,
+    DocumentSnapshot snapshot,
   ) {
-    final data = snapshot.data() as Map<String, dynamic>;
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
     SurveyData surveyData = SurveyData();
     surveyData.answers.forEach(
       (key, value) {
@@ -30,10 +30,10 @@ class UserData {
       },
     );
     return UserData(
-      email: "",
+      email: snapshot.id,
       password: "",
       name: data['name'],
-      studentNumber: data['state'],
+      studentNumber: data['student_number'],
       major: data["major"],
       dormitoryInfo: data["dormitory_info"],
       color: Color(data["color"]),
