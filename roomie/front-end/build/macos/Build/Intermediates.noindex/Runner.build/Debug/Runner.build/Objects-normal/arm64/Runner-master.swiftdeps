@@ -1,8 +1,0 @@
-version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
-options: "97d713cb9d33d1a112f562a7ceb54b7b0ce5a766698a011504ec6c33790140a1"
-build_start_time: [1675915519, 17961025]
-build_end_time: [1675915528, 877393960]
-inputs:
-  "/Users/rkdbg/Codes/Flutter/roomie/macos/Flutter/GeneratedPluginRegistrant.swift": [1675915504, 662325382]
-  "/Users/rkdbg/Codes/Flutter/roomie/macos/Runner/AppDelegate.swift": [1674585417, 0]
-  "/Users/rkdbg/Codes/Flutter/roomie/macos/Runner/MainFlutterWindow.swift": [1674585417, 0]
