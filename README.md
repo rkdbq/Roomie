@@ -1,6 +1,17 @@
 # Roomie
 잘 맞을 확률이 높은 룸메이트를 매칭해주는 서비스입니다.
 
+## Usage
+
+```bash
+$ flutter create [your project name]
+```
+Replace your project's `lib/`, `pubspec.lock`, `pubspec.yaml`
+```bash
+$ flutter clean
+$ flutter run
+```
+
 ## Team
 
 |성명|역할|
