@@ -4,9 +4,37 @@ import 'package:roomie/classes/survey_data.dart';
 
 class UserData {
   String email;
-  late String name, studentNumber, major, dormitoryInfo;
+  late String name, studentNumber, major, dormitoryInfo, searchTag;
   late SurveyData surveyData;
   late Color color;
+
+  Map numToTag = {
+    0: "none",
+    1: "sleep_at",
+    2: "awake_at",
+    3: "cleaning_period",
+    4: "sleeping_habits",
+    5: "extroversion",
+    6: "relationship",
+    7: "smoking",
+    8: "earphone",
+    9: "indoor_eating",
+    10: "indoor_calling",
+  };
+
+  Map tagToNum = {
+    "none": 0,
+    "sleep_at": 1,
+    "awake_at": 2,
+    "cleaning_period": 3,
+    "sleeping_habits": 4,
+    "extroversion": 5,
+    "relationship": 6,
+    "smoking": 7,
+    "earphone": 8,
+    "indoor_eating": 9,
+    "indoor_calling": 10,
+  };
 
   UserData({
     this.studentNumber = "19",
@@ -16,6 +44,7 @@ class UserData {
     this.name = "",
     required this.surveyData,
     required this.color,
+    this.searchTag = "none",
   });
 
   factory UserData.fromFirestore(
@@ -36,6 +65,7 @@ class UserData {
       dormitoryInfo: data["dormitory_info"],
       color: Color(data["color"]),
       surveyData: surveyData,
+      searchTag: data['search_tag'],
     );
   }
 
@@ -57,6 +87,7 @@ class UserData {
       "indoor_eating": surveyData.answers["indoor_eating"],
       "indoor_calling": surveyData.answers["indoor_calling"],
       "etc": surveyData.answers["etc"],
+      "search_tag": searchTag,
     };
   }
 }

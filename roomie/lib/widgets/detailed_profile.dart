@@ -55,57 +55,54 @@ class _DetailedProfileState extends State<DetailedProfile> {
       controller: scrollController,
       child: SingleChildScrollView(
         controller: scrollController,
-        child: SizedBox(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 44,
-                    ),
-                    Visibility(
-                      visible: widget.isMine,
-                      child: Container(
-                        color: RoomieColor.background,
-                        height:
-                            MediaQuery.of(context).size.height - 96 - 72 * 2,
-                        child: Center(
-                          child: ProfileCard(
-                            userData: widget.userData,
-                            isMine: widget.isMine,
-                          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 44,
+                  ),
+                  Visibility(
+                    visible: widget.isMine,
+                    child: Container(
+                      color: RoomieColor.background,
+                      height: MediaQuery.of(context).size.height - 96 - 72 * 2,
+                      child: Center(
+                        child: ProfileCard(
+                          index: -1,
+                          userData: widget.userData,
+                          isMine: widget.isMine,
                         ),
                       ),
                     ),
-                    myProfileQuestionSlider("sleep_at", SleepAt(), 0),
-                    myProfileQuestionSlider("awake_at", AwakeAt(), 1),
-                    myProfileQuestionSlider(
-                        "cleaning_period", CleaningPeriod(), 2),
-                    myProfileQuestionSlider("relationship", Relationship(), 3),
-                    myProfileQuestionSlider(
-                        "sleeping_habits", SleepingHabits(), 4),
-                    myProfileQuestionSlider("extroversion", Extroversion(), 5),
-                    myProfileQuestionButtons("smoking", Smoking(), 6),
-                    myProfileQuestionButtons("earphone", Earphone(), 7),
-                    myProfileQuestionButtons(
-                        "indoor_eating", IndoorEating(), 8),
-                    myProfileQuestionButtons(
-                        "indoor_calling", IndoorCalling(), 9),
-                    myProfileQuestionTextField("etc", Etc(widget.userData), 10),
-                    Visibility(
-                      visible: !widget.isMine,
-                      child: const SizedBox(
-                        height: 72,
-                      ),
+                  ),
+                  myProfileQuestionSlider("sleep_at", SleepAt(), 0),
+                  myProfileQuestionSlider("awake_at", AwakeAt(), 1),
+                  myProfileQuestionSlider(
+                      "cleaning_period", CleaningPeriod(), 2),
+                  myProfileQuestionSlider("relationship", Relationship(), 3),
+                  myProfileQuestionSlider(
+                      "sleeping_habits", SleepingHabits(), 4),
+                  myProfileQuestionSlider("extroversion", Extroversion(), 5),
+                  myProfileQuestionButtons("smoking", Smoking(), 6),
+                  myProfileQuestionButtons("earphone", Earphone(), 7),
+                  myProfileQuestionButtons("indoor_eating", IndoorEating(), 8),
+                  myProfileQuestionButtons(
+                      "indoor_calling", IndoorCalling(), 9),
+                  myProfileQuestionTextField("etc", Etc(widget.userData), 10),
+                  Visibility(
+                    visible: !widget.isMine,
+                    child: const SizedBox(
+                      height: 72,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -178,12 +175,14 @@ class _DetailedProfileState extends State<DetailedProfile> {
           isDetailProfile: true,
           isMyProfile: widget.isMine,
           updateMyProfileCard: () {
-            setState(() {
-              final user = FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(widget.userData.email);
-              user.update({key: widget.userData.surveyData.answers[key]});
-            });
+            setState(
+              () {
+                final user = FirebaseFirestore.instance
+                    .collection("users")
+                    .doc(widget.userData.email);
+                user.update({key: widget.userData.surveyData.answers[key]});
+              },
+            );
           },
         ),
       ),

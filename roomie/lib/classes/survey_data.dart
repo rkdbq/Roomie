@@ -26,7 +26,7 @@ class SleepAt implements PossibleAnswer {
 
   @override
   String title() {
-    return "수면시간";
+    return "취침시간";
   }
 
   @override
@@ -52,7 +52,7 @@ class AwakeAt implements PossibleAnswer {
 
   @override
   String title() {
-    return "취침시간";
+    return "기상시간";
   }
 
   @override
