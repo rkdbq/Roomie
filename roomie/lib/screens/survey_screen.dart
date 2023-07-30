@@ -39,17 +39,22 @@ class _SurveyScreenState extends State<SurveyScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          questionSlider("sleep_at", SleepAt(), 0),
-          questionSlider("awake_at", AwakeAt(), 1),
-          questionSlider("cleaning_period", CleaningPeriod(), 2),
-          questionSlider("relationship", Relationship(), 3),
-          questionSlider("sleeping_habits", SleepingHabits(), 4),
-          questionSlider("extroversion", Extroversion(), 5),
-          questionButtons("smoking", Smoking(), 6),
-          questionButtons("earphone", Earphone(), 7),
-          questionButtons("indoor_eating", IndoorEating(), 8),
-          questionButtons("indoor_calling", IndoorCalling(), 9),
-          questionTextField("etc", Etc(widget.userData), 10),
+          questionButtons("smoking", Smoking(), 0),
+          questionSlider("sleeping_habits", SleepingHabits(), 4, 1),
+          questionSlider("relationship", Relationship(), 2, 2),
+          questionSlider("sleep_at", SleepAt(), 6, 3),
+          questionSlider("room_cleaning", RoomCleaning(), 4, 4),
+          questionSlider("restroom_cleaning", RestroomCleaning(), 4, 5),
+          // questionSlider("awake_at", AwakeAt(), 1),
+          // questionSlider("extroversion", Extroversion(), 5),
+          questionButtons("inviting", Inviting(), 6),
+          questionButtons("sharing", Sharing(), 7),
+          questionButtons("calling", Calling(), 8),
+          questionButtons("earphone", Earphone(), 9),
+          questionButtons("eating", Eating(), 10),
+          questionButtons("late_stand_using", LateStandUsing(), 11),
+
+          questionTextField("etc", Etc(widget.userData), 12),
           surveyDoneButton(users),
         ],
       ),
@@ -81,7 +86,8 @@ class _SurveyScreenState extends State<SurveyScreen> {
     );
   }
 
-  AnimatedOpacity questionSlider(String key, PossibleAnswer answer, int index) {
+  AnimatedOpacity questionSlider(
+      String key, PossibleAnswer answer, int max, int index) {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 1000),
       opacity: visibilities[index] ? 1 : 0,
@@ -91,6 +97,7 @@ class _SurveyScreenState extends State<SurveyScreen> {
           userData: widget.userData,
           surveyKey: key,
           surveyAnswer: answer,
+          maxIndex: max,
           onChangeEnd: (value) {
             setState(
               () {
@@ -98,7 +105,6 @@ class _SurveyScreenState extends State<SurveyScreen> {
                 if (visibilities.length > index + 1) {
                   visibilities[index + 1] = true;
                 }
-                print(widget.userData.surveyData.answers);
               },
             );
           },

@@ -14,6 +14,7 @@ class QuestionSlider extends StatefulWidget {
   late double titleFontSize;
   late double answerSizedBoxHeight;
   late bool isMyProfile;
+  late int maxIndex;
   Function(dynamic value)? onChangeEnd;
 
   QuestionSlider({
@@ -23,6 +24,7 @@ class QuestionSlider extends StatefulWidget {
     required this.surveyAnswer,
     this.onChangeEnd,
     required this.backgroundColor,
+    required this.maxIndex,
     this.titleSizedBoxHeight = 128,
     this.titleFontSize = 24,
     this.answerSizedBoxHeight = 24,
@@ -60,7 +62,7 @@ class _QuestionSliderState extends State<QuestionSlider> {
             inactiveColor: widget.backgroundColor.withOpacity(0.2),
             value: widget.userData.surveyData.answers[widget.surveyKey],
             min: 0,
-            max: 4,
+            max: widget.maxIndex,
             interval: 1,
             showTicks: true,
             onChangeEnd: widget.onChangeEnd,
@@ -74,7 +76,6 @@ class _QuestionSliderState extends State<QuestionSlider> {
                       .doc(widget.userData.email);
                   user.update({widget.surveyKey: val});
                   widget.userData.surveyData.answers[widget.surveyKey] = val;
-                  print(widget.userData.surveyData.answers);
                 },
               );
             },
