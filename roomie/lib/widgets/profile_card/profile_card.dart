@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:roomie/screens/navigated_screens/chat_screen.dart';
 import 'package:roomie/themes/roomie_color.dart';
 import 'package:roomie/widgets/profile_card/profile_button.dart';
 
@@ -106,6 +107,11 @@ class ProfileCard extends StatelessWidget {
                       iconData: Icons.chat_bubble_rounded,
                       labelText: "새 채팅",
                       onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return const ChatScreen();
+                          },
+                        ));
                         print("새 채팅");
                       },
                     ),

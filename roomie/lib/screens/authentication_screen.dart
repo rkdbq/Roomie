@@ -3,6 +3,7 @@ import 'package:roomie/authentication.dart';
 import 'package:roomie/themes/palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum genderTypeEnum { Male, Female }
 
@@ -21,7 +22,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
   bool isSignupScreen = true;
   bool showSpinner = false;
   final _formKey = GlobalKey<FormState>();
-  String userName = '';
+  String userNickName = '';
   String userStudentNumber = '';
   String userEmail = '';
   String userPassword = '';
@@ -185,7 +186,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             )
                           ],
                         ),
-                        if (isSignupScreen)
+                        if (isSignupScreen) //회원가입
                           Container(
                             margin: const EdgeInsets.only(
                               top: 20,
@@ -195,18 +196,19 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               child: Column(
                                 children: [
                                   TextFormField(
+                                    //닉네임
                                     key: const ValueKey(1),
                                     validator: (value) {
                                       if (value!.isEmpty || value.length < 2) {
-                                        return '올바른 이름을 입력하세요';
+                                        return '올바른 닉네임을 입력하세요';
                                       }
                                       return null;
                                     },
                                     onSaved: (value) {
-                                      userName = value!;
+                                      userNickName = value!;
                                     },
                                     onChanged: ((value) {
-                                      userName = value;
+                                      userNickName = value;
                                     }),
                                     decoration: const InputDecoration(
                                       prefixIcon: Icon(
@@ -227,7 +229,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                           Radius.circular(35.0),
                                         ),
                                       ),
-                                      hintText: '이름',
+                                      hintText: '닉네임',
                                       hintStyle: TextStyle(
                                         fontSize: 14,
                                         color: Palette.textColor1,
@@ -239,6 +241,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     height: 8,
                                   ),
                                   TextFormField(
+                                    //학번
                                     key: const ValueKey(2),
                                     validator: (value) {
                                       if (value!.isEmpty || value.length != 9) {
@@ -283,11 +286,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     height: 8,
                                   ),
                                   TextFormField(
+                                    //이메일
                                     controller: idTextEditingController,
                                     key: const ValueKey(3),
                                     validator: (value) {
                                       if (value!.isEmpty ||
-                                          !value.contains('@')) {
+                                          !value.contains('@jbnu.ac.kr')) {
                                         return '올바른 이메일을 입력하세요.';
                                       }
                                       return null;
@@ -333,11 +337,12 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     height: 8,
                                   ),
                                   TextFormField(
+                                    //비밀번호
                                     controller: pwTextEditingController,
                                     obscureText: true,
                                     key: const ValueKey(4),
                                     validator: (value) {
-                                      if (value!.isEmpty || value.length < 7) {
+                                      if (value!.isEmpty || value.length < 8) {
                                         return '비밀번호는 8자리 이상이여야 합니다.';
                                       }
                                       return null;
@@ -379,10 +384,11 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     height: 8.0,
                                   ),
                                   TextFormField(
+                                    //비밀번호 확인
                                     obscureText: true,
                                     key: const ValueKey(5),
                                     validator: (value) {
-                                      if (value!.isEmpty || value.length < 7) {
+                                      if (value!.isEmpty || value.length < 8) {
                                         return '비밀번호는 8자리 이상이여야 합니다.';
                                       }
                                       return null;
@@ -457,7 +463,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               ),
                             ),
                           ),
-                        if (!isSignupScreen)
+                        if (!isSignupScreen) //로그인
                           Container(
                             margin: const EdgeInsets.only(top: 20),
                             child: Form(
@@ -468,7 +474,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     key: const ValueKey(6),
                                     validator: (value) {
                                       if (value!.isEmpty ||
-                                          !value.contains('@')) {
+                                          !value.contains('@jbnu.ac.kr')) {
                                         return '올바른 이메일을 입력하세요.';
                                       }
                                       return null;
@@ -478,7 +484,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                     },
                                     onChanged: ((value) {
                                       userEmail = value;
-                                      print(userEmail);
                                     }),
                                     decoration: const InputDecoration(
                                       prefixIcon: Icon(
@@ -513,8 +518,8 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   TextFormField(
                                     key: const ValueKey(7),
                                     validator: (value) {
-                                      if (value!.isEmpty || value.length < 7) {
-                                        return '비밀번호는 8자리 이상이여야 합니다.';
+                                      if (value!.isEmpty || value.length < 8) {
+                                        return '올바른 비밀번호를 입력하세요.';
                                       }
                                       return null;
                                     },
@@ -560,7 +565,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                   ),
                 ),
               ),
-              //텍스트 FormField
+              //텍스트
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.easeIn,
@@ -579,7 +584,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                     child: GestureDetector(
                       onTap: () async {
                         setState(() {
-                          // showSpinner = true;
+                          showSpinner = true;
                         });
                         if (isSignupScreen) {
                           _tryValidation();
@@ -591,6 +596,15 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               password: userPassword,
                             );
 
+                            await FirebaseFirestore.instance
+                                .collection('user')
+                                .doc(newUser.user!.uid)
+                                .set({
+                              'userNickName': userNickName,
+                              'email': userEmail,
+                              'userStudentNumber': userStudentNumber,
+                            });
+
                             if (newUser.user != null) {
                               print("hi");
                               Navigator.push(
@@ -599,7 +613,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   builder: (context) {
                                     return Authentication(
                                         email: userEmail,
-                                        name: userName,
+                                        name: userNickName,
                                         studentNumber: userStudentNumber);
                                   },
                                 ),
@@ -638,7 +652,7 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                   builder: (context) {
                                     return Authentication(
                                       email: userEmail,
-                                      name: userName,
+                                      name: userNickName,
                                       studentNumber: userStudentNumber,
                                     );
                                   },
