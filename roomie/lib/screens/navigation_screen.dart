@@ -63,8 +63,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
     );
   }
 
-  
-
   void animateListView(int index) {
     scrollController.animateTo(
       index * MediaQuery.of(context).size.width,

@@ -297,13 +297,9 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                                       return null;
                                     },
                                     onSaved: (value) {
-                                      print("save");
-                                      print(value);
                                       userEmail = value!;
                                     },
                                     onChanged: ((value) {
-                                      print("change");
-                                      print(value);
                                       userEmail = value;
                                     }),
                                     decoration: const InputDecoration(
@@ -606,7 +602,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                             });
 
                             if (newUser.user != null) {
-                              print("hi");
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -644,8 +639,6 @@ class _LoginSignupScreenState extends State<LoginSignupScreen> {
                               password: userPassword,
                             );
                             if (newUser.user != null) {
-                              print("debug");
-                              print(userEmail);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

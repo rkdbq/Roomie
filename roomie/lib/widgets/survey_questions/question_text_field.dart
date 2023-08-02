@@ -77,7 +77,6 @@ class QuestionTextField extends StatelessWidget {
               if (updateMyProfileCard != null) {
                 updateMyProfileCard!();
               }
-              print(userData.surveyData.answers);
             },
             onTapOutside: (event) {
               if (textEditingController.text.isEmpty) return;
@@ -91,7 +90,6 @@ class QuestionTextField extends StatelessWidget {
               if (updateMyProfileCard != null) {
                 updateMyProfileCard!();
               }
-              print(userData.surveyData.answers);
             },
           ),
         ),

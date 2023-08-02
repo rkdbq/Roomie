@@ -61,7 +61,7 @@ class _QuestionButtonsState extends State<QuestionButtons> {
               widget.surveyKey,
               widget.surveyAnswer.items
                   .indexOf(widget.surveyAnswer.items.first),
-              widget.surveyAnswer.items.first,
+              widget.surveyAnswer.answer(0),
               colors[0],
             ),
             Visibility(
@@ -74,7 +74,7 @@ class _QuestionButtonsState extends State<QuestionButtons> {
                 widget.surveyKey,
                 widget.surveyAnswer.items
                     .indexOf(widget.surveyAnswer.items.last),
-                widget.surveyAnswer.items.last,
+                widget.surveyAnswer.answer(1),
                 colors[1]),
           ],
         ),
@@ -100,7 +100,6 @@ class _QuestionButtonsState extends State<QuestionButtons> {
           widget.onPressed();
           setState(() {
             widget.userData.surveyData.answers[key] = itemType;
-            print(widget.userData.surveyData.answers);
             var chosen = widget.userData.surveyData.answers[widget.surveyKey];
             var notChosen = 0;
             chosen == 0 ? notChosen = 1 : notChosen = 0;

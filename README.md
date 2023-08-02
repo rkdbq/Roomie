@@ -4,8 +4,8 @@
 ## Usage
 
 ```bash
-$ flutter create your_project_name
-$ cd your_project_name/
+$ flutter create roomie(your_project_name)
+$ cd roomie(your_project_name)/
 ```
 Replace your project's `lib/`, `pubspec.lock`, `pubspec.yaml`
 ```bash

@@ -11,11 +11,9 @@ import 'difference.dart';
 class ProfileCard extends StatelessWidget {
   late UserData userData;
   late bool isMine;
-  int index;
   ProfileCard({
     super.key,
     required this.userData,
-    required this.index,
     this.isMine = false,
   });
 

@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:roomie/classes/user_data.dart';
 import 'package:swiping_card_deck/swiping_card_deck.dart';
 
+import '../../../classes/sorting_model.dart';
+import '../../../classes/weight.dart';
 import '../../../themes/roomie_color.dart';
 import '../../../widgets/profile_card/profile_card.dart';
 
@@ -23,15 +27,16 @@ class _DeckScreenState extends State<DeckScreen> {
   int swipeCount = 0, card_index = 0;
   bool disabled = false;
   List<ProfileCard> profiles = [], temp = [];
+  Weight weight = Weight(index: {}, weight: {});
 
   @override
   Widget build(BuildContext context) {
     final user = FirebaseFirestore.instance
         .collection("users")
         .doc(widget.userData.email);
-    user.update(
-      {"search_tag": "none"},
-    );
+    // user.update(
+    //   {"search_tag": "none"},
+    // );
     return FutureBuilder(
       future: getData(),
       builder: (context, snapshot) {
@@ -39,7 +44,9 @@ class _DeckScreenState extends State<DeckScreen> {
           return const Text("Something went wrong");
         }
         if (snapshot.connectionState == ConnectionState.done) {
-          fillCardDeck(snapshot, card_index);
+          if (profiles.isEmpty) {
+            fillCardDeck(snapshot);
+          }
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -51,7 +58,9 @@ class _DeckScreenState extends State<DeckScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width - 50,
                     child: DefaultTabController(
-                      length: 11,
+                      initialIndex:
+                          widget.userData.tagToNum[widget.userData.searchTag],
+                      length: 13,
                       child: Column(
                         children: <Widget>[
                           ButtonsTabBar(
@@ -69,31 +78,38 @@ class _DeckScreenState extends State<DeckScreen> {
                               user.update(
                                 {"search_tag": widget.userData.searchTag},
                               );
+                              replaceDeck(snapshot);
                             },
                             tabs: const [
                               Tab(
                                 text: "전체",
                               ),
                               Tab(
-                                text: "취침시간",
-                              ),
-                              Tab(
-                                text: "기상시간",
-                              ),
-                              Tab(
-                                text: "청소주기",
+                                text: "흡연",
                               ),
                               Tab(
                                 text: "잠버릇",
                               ),
                               Tab(
-                                text: "외향성",
-                              ),
-                              Tab(
                                 text: "관계",
                               ),
                               Tab(
-                                text: "흡연",
+                                text: "취침시간",
+                              ),
+                              Tab(
+                                text: "방 청소",
+                              ),
+                              Tab(
+                                text: "화장실 청소",
+                              ),
+                              Tab(
+                                text: "초대",
+                              ),
+                              Tab(
+                                text: "공유",
+                              ),
+                              Tab(
+                                text: "전화",
                               ),
                               Tab(
                                 text: "이어폰",
@@ -102,8 +118,8 @@ class _DeckScreenState extends State<DeckScreen> {
                                 text: "취식",
                               ),
                               Tab(
-                                text: "통화",
-                              )
+                                text: "스탠드",
+                              ),
                             ],
                           ),
                         ],
@@ -131,9 +147,17 @@ class _DeckScreenState extends State<DeckScreen> {
                     ],
                   ),
                   SwipingDeck(
-                    onLeftSwipe: (p0) => {swipeDeck()},
-                    onRightSwipe: (p0) => {swipeDeck()},
-                    onDeckEmpty: () => {replaceDeck()},
+                    onLeftSwipe: (p0) => {
+                      swipeDeck(FirebaseFirestore.instance
+                          .collection("users")
+                          .doc("weights"))
+                    },
+                    onRightSwipe: (p0) => {
+                      swipeDeck(FirebaseFirestore.instance
+                          .collection("users")
+                          .doc("weights"))
+                    },
+                    onDeckEmpty: () => {replaceDeck(snapshot)},
                     cardWidth: 300,
                     cardDeck: profiles,
                     swipeThreshold: 400.0,
@@ -154,50 +178,55 @@ class _DeckScreenState extends State<DeckScreen> {
     );
   }
 
-  void fillCardDeck(
-      AsyncSnapshot<QuerySnapshot<Object?>> snapshot, int undoIndex) {
+  void fillCardDeck(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
     var querySnapshot = snapshot.data!;
-    var index = 0;
     for (var documentSnapshot in querySnapshot.docs) {
       {
-        if (documentSnapshot.id == widget.userData.email) continue;
-        if (undoIndex - 1 >= index++) continue;
-        profiles.add(
-          ProfileCard(
-            index: index++,
-            userData: UserData.fromFirestore(documentSnapshot),
-          ),
-        );
+        if (documentSnapshot.id == "weights") {
+          weight =
+              Weight.fromFirestore(documentSnapshot, widget.userData.searchTag);
+        } else {
+          if (documentSnapshot.id == widget.userData.email) continue;
+          profiles.add(
+            ProfileCard(
+              userData: UserData.fromFirestore(documentSnapshot),
+            ),
+          );
+        }
       }
     }
+
+    Model model = Model(data: widget.userData, weight: weight);
+    profiles = model.sort(profiles);
   }
 
   Future<QuerySnapshot> getData() async {
-    print("getData");
-    profiles.clear();
     var users = FirebaseFirestore.instance.collection('users');
-    return users.orderBy("name").limit(10).get();
+    return users.get();
   }
 
-  void swipeDeck() {
+  void swipeDeck(DocumentReference<Map<String, dynamic>> user) {
+    Model model = Model(data: widget.userData, weight: weight);
+    var scores = model.getScoreMap(profiles[card_index]);
+    print(scores);
+    weight.changeWeightMap(scores);
+    user.update(weight.toFirestore());
     card_index++;
-    print(card_index);
   }
 
-  void replaceDeck() {
-    print(widget.userData.searchTag);
+  void replaceDeck(AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
+    profiles.clear();
     card_index = 0;
     disabled = false;
-    setState(
-      () {},
-    );
+    fillCardDeck(snapshot);
+    setState(() {});
   }
 
   void undoDeck() {
     card_index--;
     disabled = true;
-    setState(
-      () {},
-    );
+
+    profiles = profiles.sublist(max(card_index, 0), profiles.length);
+    setState(() {});
   }
 }
