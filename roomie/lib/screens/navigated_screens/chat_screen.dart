@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:roomie/widgets/chat_function/new_message.dart';
+import 'package:roomie/widgets/chat_function/message.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -34,35 +35,19 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Chat screen'),
+      appBar: AppBar(
+        title: const Text('채팅'),
+      ),
+      body: Container(
+        child: const Column(
+          children: [
+            Expanded(
+              child: Messages(),
+            ),
+            NewMessage(),
+          ],
         ),
-        body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('chats/0kgA7riGN8Eaeyoae9se/message')
-              .snapshots(),
-          builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            final docs = snapshot.data!.docs;
-            return ListView.builder(
-              itemCount: docs.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    docs[index]['text'],
-                    style: const TextStyle(fontSize: 20.0),
-                  ),
-                );
-              },
-            );
-          },
-        ));
+      ),
+    );
   }
 }
